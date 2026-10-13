@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lộ trình 6 tháng Backend Engineer thời AI: bản PERN cho junior</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#F2F5F7;--surface:#FFFFFF;--ink:#13202B;--muted:#4F6272;--line:#D3DCE3;--accent:#0B7A85;--accent-soft:#D8EEF0;--on-accent:#FFFFFF;
+--warn:#A86C00;--warn-soft:#FBEFD2;--bad:#C0392B;--bad-soft:#F9DEDA;--good:#2B7A4B;--good-soft:#DAF0E3;--indigo:#3F51B5;--code-bg:#0F1D27;--code-ink:#D8E6EE;
+--p1:var(--accent);--p2:var(--indigo);--p3:var(--warn);--p4:var(--good)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C161D;--surface:#13222C;--ink:#E4EDF2;--muted:#9BADBA;--line:#263845;--accent:#4CC3CE;--accent-soft:#12383D;--on-accent:#08222A;--warn:#E3B23C;--warn-soft:#3A2F10;--bad:#F07A6C;--bad-soft:#40201C;--good:#5BC084;--good-soft:#163526;--indigo:#9DAAFF;--code-bg:#08121A;--code-ink:#D8E6EE}}
+:root[data-theme="dark"]{--bg:#0C161D;--surface:#13222C;--ink:#E4EDF2;--muted:#9BADBA;--line:#263845;--accent:#4CC3CE;--accent-soft:#12383D;--on-accent:#08222A;--warn:#E3B23C;--warn-soft:#3A2F10;--bad:#F07A6C;--bad-soft:#40201C;--good:#5BC084;--good-soft:#163526;--indigo:#9DAAFF;--code-bg:#08121A;--code-ink:#D8E6EE}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-text-size-adjust:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+a{color:var(--accent)}
+code{font:.88em 'JetBrains Mono',ui-monospace,Consolas,monospace;background:var(--accent-soft);padding:1px 6px;border-radius:5px}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+.nav a{white-space:nowrap;padding:5px 11px;border-radius:999px;font-size:13.5px;color:var(--muted);text-decoration:none;border:1px solid transparent}
+.nav a:hover{color:var(--ink);border-color:var(--line)}
+.hero{padding:46px 0 18px}
+.hero h1{font-size:clamp(30px,5.6vw,50px);line-height:1.12;letter-spacing:-.02em;margin:0 0 14px;max-width:20ch}
+.hero p.sub{font-size:17.5px;color:var(--muted);max-width:68ch;margin:0 0 16px}
+.prog{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);max-width:520px}
+.prog .meter{flex:1}
+.meter{height:12px;border-radius:8px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.scroll{overflow-x:auto}
+h2.big{font-size:clamp(22px,4vw,28px);margin:34px 0 6px;letter-spacing:-.01em}
+.lead{font-size:17px;color:var(--muted);max-width:70ch;margin:0 0 10px}
+.metro{min-width:900px}
+.princ{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0 4px}
+.princ div{border-left:3px solid var(--accent);padding:2px 0 2px 12px;font-size:15px}
+.princ b{display:block}
+.tbl{border-collapse:collapse;width:100%;font-size:14.5px;min-width:640px}
+.tbl th,.tbl td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{color:var(--muted);font-weight:600;font-size:13.5px}
+.tag{display:inline-block;padding:1px 9px;border-radius:999px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.tag.keep{background:var(--good-soft);color:var(--good)}.tag.swap{background:var(--accent-soft);color:var(--accent)}.tag.defer{background:var(--warn-soft);color:var(--warn)}
+.sec{padding:50px 0 4px;border-top:1px solid var(--line);margin-top:36px}
+.sh{display:flex;gap:14px;align-items:flex-start;margin-bottom:8px}
+.sh h2{font-size:clamp(22px,3.8vw,30px);line-height:1.25;margin:2px 0 0;letter-spacing:-.01em}
+.num{flex:none;width:40px;height:40px;border-radius:11px;background:var(--ph);color:var(--on-accent);display:grid;place-items:center;font-size:18px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12.5px;padding:1px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--surface)}
+.chip.ph{border-color:var(--ph);color:var(--ph);font-weight:600}
+.orig{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 4px}
+.orig div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:14.5px}
+.orig div:last-child{border-color:var(--ph)}
+.orig b{display:block;font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:2px}
+h3{font-size:18px;margin:28px 0 10px}
+h4{font-size:15.5px;margin:20px 0 8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card+.card{margin-top:14px}
+svg{display:block;width:100%;height:auto}
+svg text{font:12px 'Be Vietnam Pro',system-ui,sans-serif;fill:var(--muted)}
+.ctls{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 24px;margin:0 0 14px}
+.ctl{display:grid;grid-template-columns:1fr auto;gap:0 10px;font-size:14px}
+.ctl input{grid-column:1/-1;width:100%;accent-color:var(--accent)}
+.ctl output{font-weight:600}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px}
+.chk input,.radios input{accent-color:var(--accent);width:17px;height:17px}
+.radios{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 12px}
+.radios label{display:flex;gap:7px;align-items:center;font-size:14.5px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.btn{font:inherit;font-size:14px;padding:7px 14px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--accent)}.btn:disabled{opacity:.45;cursor:default}
+.btn.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:12px 0}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.stat small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35}
+.stat strong{font-size:19px}
+.stat.bad strong{color:var(--bad)}.stat.warn strong{color:var(--warn)}.stat.good strong{color:var(--good)}
+.note{padding:10px 14px;border-radius:10px;background:var(--accent-soft);font-size:14.5px;margin:10px 0 0}
+.note.warn{background:var(--warn-soft)}.note.bad{background:var(--bad-soft)}.note.good{background:var(--good-soft)}
+pre{background:var(--code-bg);color:var(--code-ink);padding:16px;border-radius:12px;overflow-x:auto;font:13px/1.6 'JetBrains Mono',ui-monospace,Consolas,monospace;margin:0}
+pre code{background:none;padding:0;font:inherit}
+pre.sql{margin:0 0 10px;font-size:12.5px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.two ul{margin:0;padding-left:20px}.two li{margin:0 0 6px;font-size:15px}.two p{margin:0 0 8px;font-size:15px}
+.dod{list-style:none;padding:0!important;margin:0}
+.dod li{display:flex;gap:9px;align-items:flex-start;margin:0 0 7px!important;font-size:14.5px!important}
+.dod input{margin-top:5px;accent-color:var(--ph);width:16px;height:16px;flex:none}
+.ai{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.ai div{border-radius:12px;padding:10px 14px;font-size:14.5px}
+.ai .give{background:var(--accent-soft)}.ai .own{background:var(--warn-soft)}
+.ai b{display:block;font-size:13px;margin-bottom:2px}
+.trap{margin:14px 0 0;padding:10px 14px;border-left:4px solid var(--bad);background:var(--bad-soft);border-radius:0 10px 10px 0;font-size:14.5px}
+.rel{margin:8px 0 0;font-size:13.5px;color:var(--muted)}
+.tabs{display:flex;gap:6px;margin:0 0 10px}
+.log{list-style:none;padding:0;margin:0;display:grid;gap:5px}
+.log li{padding:6px 12px;border-radius:8px;border-left:4px solid var(--line);background:var(--bg);font-size:13.5px}
+table.rows{border-collapse:collapse;width:100%;font-size:14px}
+table.rows td,table.rows th{padding:6px 10px;border-bottom:1px solid var(--line);text-align:left}
+table.rows tr.leak td{background:var(--bad-soft)}
+.rk{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.rk li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:7px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg);font-size:14px}
+.rk li.star{border-color:var(--accent)}
+.rk .n{font-weight:700;color:var(--muted)}
+.rk small{color:var(--muted);white-space:nowrap}
+.lanes{display:grid;gap:14px}
+.lane h4{margin:0 0 6px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{padding:5px 11px;border-radius:999px;border:1.5px dashed var(--line);font-size:13px;color:var(--muted)}
+.pill.done{background:var(--good-soft);border:1.5px solid var(--good);color:var(--good)}
+.pill.cur{border:1.5px solid var(--accent);color:var(--ink)}
+textarea{width:100%;min-height:92px;font:13px/1.5 'JetBrains Mono',ui-monospace,Consolas,monospace;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px}
+.sbs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.box{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--bg);min-height:130px;font-size:14.5px}
+.box b{display:block;font-size:13px;color:var(--muted);margin-bottom:4px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+.envs{display:flex;flex-wrap:wrap;gap:6px;min-height:30px;margin:6px 0}
+.env{width:26px;height:26px;border-radius:6px;background:var(--good-soft);border:2px solid var(--good)}
+.env.orphan{background:var(--bad-soft);border-color:var(--bad)}
+.state{display:inline-block;padding:4px 14px;border-radius:999px;font-weight:700;font-size:14px}
+.state.closed{background:var(--good-soft);color:var(--good)}.state.open{background:var(--bad-soft);color:var(--bad)}.state.half{background:var(--warn-soft);color:var(--warn)}
+.resul{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:15px;user-select:all}
+footer{padding:50px 0 60px;color:var(--muted);font-size:14.5px}
+@media (max-width:760px){.two,.orig,.ai,.sbs{grid-template-columns:1fr}.hero{padding-top:28px}}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Mục lục"><div class="wrap" id="nav"><a href="#top">Tổng quan</a></div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+<h1>6 tháng để thành Backend Engineer thời AI: bản PERN cho junior</h1>
+<p class="sub">Bạn đã làm pet project cùng AI. Lộ trình 12 stage mà mentor đưa cho dev Python/Go được chuyển sang Node.js, Express, PostgreSQL, React và đổi trọng tâm: AI viết phần lớn code khởi đầu, còn bạn chịu trách nhiệm chứng minh nó chịu được tải, lỗi và tấn công. Giả định 10–15 giờ mỗi tuần. Ít hơn thì kéo dài lịch, đừng cắt phần "phá hỏng và đo".</p>
+<div class="prog"><span id="progtxt">Bài tập hoàn thành: 0</span><div class="meter"><i id="progbar"></i></div></div>
+</div></header>
+
+<section><div class="wrap">
+<h2 class="big">Bản đồ 24 tuần</h2>
+<p class="lead">12 stage, 4 phase. Bấm vào ga để nhảy tới stage đó.</p>
+<div class="scroll"><div class="metro"><svg id="metro" viewBox="0 0 1000 190" role="img" aria-label="Bản đồ 12 stage trong 24 tuần"></svg></div></div>
+
+<h2 class="big">Giữ, thay, hoãn: từ bản gốc sang PERN junior</h2>
+<p class="lead">Không phải mọi thứ trong bản gốc đều hợp với junior dùng PERN. Bảng này cho biết cái gì giữ nguyên, cái gì thay bằng công cụ gần stack của bạn, cái gì hoãn lại để không quá tải.</p>
+<div class="scroll"><table class="tbl" id="map"></table></div>
+
+<h2 class="big">Cách làm việc ở mỗi stage</h2>
+<div class="card"><svg id="loop" viewBox="0 0 760 120" role="img" aria-label="Vòng lặp Hiểu, Dựng, Phá, Đo và viết"></svg></div>
+<div class="princ">
+<div><b>Mỗi stage kết thúc bằng một thí nghiệm phá hỏng</b>Load test, kill -9, tiêm lỗi, thử tấn công. Chạy được ở máy bạn chưa phải là xong.</div>
+<div><b>Không merge code AI mà chưa giải thích được</b>Với mọi đoạn quan trọng, bạn phải nói được nó fail ra sao và vì sao nó đúng.</div>
+<div><b>Số đo thắng cảm giác</b>Mỗi stage có "Definition of done" đo được. Tick xong mới sang stage tiếp.</div>
+</div>
+</div></section>
+
+<main id="main"></main>
+
+<footer><div class="wrap">Tiến độ tick được lưu trong trình duyệt của bạn (chỉ trên máy này). Số liệu trong các mô phỏng là minh hoạ để thấy hình dạng của vấn đề, không phải benchmark thật: hãy đo trên hệ thống của bạn. Tên công cụ (Inngest, Temporal, KEDA, Langfuse, pg-boss…) có thể đổi theo thời gian, hãy đọc docs bản mới nhất trước khi cài.</div></footer>
+
+<script type="text/plain" id="code-s1">
+import http from 'node:http';
+import { monitorEventLoopDelay } from 'node:perf_hooks';
+import { Worker } from 'node:worker_threads';
+
+const h = monitorEventLoopDelay({ resolution: 10 });
+h.enable();
+setInterval(() => {
+  console.log('event loop lag p99 (ms):', (h.percentile(99) / 1e6).toFixed(1));
+  h.reset();
+}, 5000);
+
+// Việc CPU nặng thì đẩy sang worker để event loop rảnh phục vụ request khác
+function hashInWorker(input: string) {
+  return new Promise<string>((resolve, reject) => {
+    const w = new Worker(new URL('./hash-worker.js', import.meta.url), { workerData: input });
+    w.once('message', resolve);
+    w.once('error', reject);
+  });
+}
+
+http.createServer(async (req, res) => {
+  res.end(await hashInWorker(req.url ?? '/'));
+}).listen(3000);
+
+// Tạo Worker cho mỗi request là phí. Thực tế dùng pool (vd: piscina).
+// Load test (WSL2/Linux): ulimit -n 65535 && npx autocannon -c 1000 -d 20 http://localhost:3000
+</script>
+<script type="text/plain" id="code-s2">
+-- Multi-tenant bằng RLS (fail-closed: quên set tenant thì không thấy dòng nào)
+ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE documents FORCE ROW LEVEL SECURITY;      -- áp dụng cả với chủ bảng
+CREATE POLICY tenant_isolation ON documents
+  USING (tenant_id = nullif(current_setting('app.tenant_id', true), '')::uuid);
+-- App kết nối bằng role thường. Superuser và role BYPASSRLS bỏ qua RLS.
+
+-- pgvector + full-text ('simple' vì Postgres không có từ điển tiếng Việt)
+CREATE EXTENSION IF NOT EXISTS vector;
+ALTER TABLE documents
+  ADD COLUMN embedding vector(1536),
+  ADD COLUMN tsv tsvector GENERATED ALWAYS AS
+    (to_tsvector('simple', coalesce(title,'') || ' ' || coalesce(body,''))) STORED;
+CREATE INDEX ON documents USING hnsw (embedding vector_cosine_ops);
+CREATE INDEX ON documents USING gin (tsv);
+
+-- Hybrid: gộp hai bảng xếp hạng bằng Reciprocal Rank Fusion (k = 60)
+WITH kw AS (
+  SELECT id, row_number() OVER (ORDER BY ts_rank_cd(tsv, plainto_tsquery('simple', $1)) DESC) AS r
+  FROM documents WHERE tsv @@ plainto_tsquery('simple', $1) LIMIT 50),
+vec AS (
+  SELECT id, row_number() OVER (ORDER BY embedding <=> $2::vector) AS r
+  FROM documents ORDER BY embedding <=> $2::vector LIMIT 50)
+SELECT d.id, d.title, coalesce(1.0/(60+kw.r),0) + coalesce(1.0/(60+vec.r),0) AS score
+FROM documents d
+LEFT JOIN kw ON kw.id = d.id LEFT JOIN vec ON vec.id = d.id
+WHERE kw.id IS NOT NULL OR vec.id IS NOT NULL
+ORDER BY score DESC LIMIT 10;
+
+// Prisma: đặt tenant TRONG transaction (true = chỉ có hiệu lực tới hết transaction)
+// schema.prisma: embedding Unsupported("vector(1536)")?   (query vector dùng $queryRaw)
+await prisma.$transaction(async (tx) => {
+  await tx.$executeRaw`SELECT set_config('app.tenant_id', ${tenantId}, true)`;
+  return tx.$queryRaw`SELECT id, title FROM documents LIMIT 10`;   // RLS tự lọc
+});
+</script>
+<script type="text/plain" id="code-s3">
+// 1) Event bất biến: chỉ INSERT, không UPDATE/DELETE
+// model OrderEvent { id BigInt @id @default(autoincrement()) orderId String type String
+//                    payload Json createdAt DateTime @default(now()) @@index([orderId, id]) }
+await prisma.orderEvent.create({ data: { orderId, type: 'OrderPaid', payload } });
+
+// Trạng thái hiện tại = gấp (fold) các event theo thứ tự
+const state = events.reduce((s, e) => transition(s, e), 'created');
+
+// 2) Worker có retry + backoff (BullMQ chạy trên Redis; pg-boss là lựa chọn chạy trên Postgres)
+import { Queue, Worker } from 'bullmq';
+const connection = { host: 'localhost', port: 6379 };
+
+export const emailQ = new Queue('email', {
+  connection,
+  defaultJobOptions: { attempts: 3, backoff: { type: 'exponential', delay: 1000 }, removeOnFail: false },
+});
+
+new Worker('email', async (job) => {
+  // processed_events.event_id có @unique: xử lý trùng thì một bên báo lỗi unique
+  const seen = await prisma.processedEvent.findUnique({ where: { eventId: job.data.eventId } });
+  if (seen) return;                                    // idempotent
+  await sendEmail(job.data);
+  await prisma.processedEvent.create({ data: { eventId: job.data.eventId } });
+}, { connection, concurrency: 5 });
+// Job hết lượt retry nằm ở tập "failed": dùng nó như DLQ, thêm màn hình xem và replay.
+</script>
+<script type="text/plain" id="code-s4">
+// Bản tối giản để HIỂU durable execution: lưu "đã làm xong bước nào" vào Postgres
+// model Workflow { id String @id  step String  wakeAt DateTime? }
+async function tick(wfId: string, userId: string) {
+  const wf = await prisma.workflow.findUniqueOrThrow({ where: { id: wfId } });
+  if (!wf.wakeAt || wf.wakeAt > new Date()) return;      // chưa tới giờ thức dậy
+
+  switch (wf.step) {
+    case 'welcome':
+      await sendEmail(userId, { idempotencyKey: `welcome:${userId}` });
+      return advance(wfId, 'trial', addDays(1));
+    case 'trial':
+      await createTrial(userId, { idempotencyKey: `trial:${userId}` });
+      return advance(wfId, 'nudge', addDays(2));
+    case 'nudge':
+      await sendEmail(userId, { idempotencyKey: `nudge:${userId}` });
+      return advance(wfId, 'done', null);
+  }
+}
+// advance() = UPDATE workflow SET step = ..., wakeAt = ... (một câu lệnh, atomic)
+// Một cron hoặc queue gọi tick() định kỳ cho mọi workflow chưa 'done'.
+// Restart server giữa chừng? Bước kế tiếp vẫn đọc từ Postgres, idempotencyKey chặn gửi trùng.
+// Khi đã hiểu, thử Inngest (step.run, step.sleep) hoặc Temporal để khỏi tự viết phần này.
+</script>
+<script type="text/plain" id="code-s5">
+app.post('/v1/chat', auth, async (req, res) => {
+  const { messages } = req.body;
+  const key = `llm:${req.user.tenantId}:${sha256(JSON.stringify(messages))}`; // cache theo tenant
+  const hit = await redis.get(key);
+  if (hit) return res.json({ ...JSON.parse(hit), cache: 'hit' });
+
+  if ((await tokensUsedToday(req.user.id)) > DAILY_BUDGET) {
+    return res.status(429).json({ error: 'Hết ngân sách token hôm nay' });
+  }
+
+  let answer;
+  try {
+    answer = await callModel(PRIMARY, messages, { signal: AbortSignal.timeout(20_000) });
+  } catch (e) {
+    if (!isRetryable(e)) throw e;                      // 503, 429 từ nhà cung cấp, timeout
+    answer = await callModel(FALLBACK, messages, { signal: AbortSignal.timeout(20_000) });
+  }
+
+  await redis.set(key, JSON.stringify(answer), 'EX', 3600);
+  await recordUsage(req.user.id, answer.usage);        // bảng usage trong Postgres
+  res.json({ ...answer, cache: 'miss' });
+});
+
+// Nâng cấp lên semantic cache: embed prompt rồi tìm trong pgvector
+//   SELECT response FROM llm_cache WHERE tenant_id = $1
+//   ORDER BY embedding <=> $2 LIMIT 1;   -- chỉ dùng nếu 1 - distance >= 0.95 (tự đo để chọn ngưỡng)
+</script>
+<script type="text/plain" id="code-s6">
+import pino from 'pino';
+import { createRemoteJWKSet, jwtVerify } from 'jose';
+
+export const log = pino({
+  redact: {
+    paths: ['req.headers.authorization', 'req.headers.cookie', '*.email', '*.phone', '*.password'],
+    censor: '[REDACTED]',
+  },
+});
+
+const JWKS = createRemoteJWKSet(new URL('https://YOUR_ISSUER/.well-known/jwks.json'));
+export async function auth(req, res, next) {
+  try {
+    const token = (req.headers.authorization ?? '').replace('Bearer ', '');
+    const { payload } = await jwtVerify(token, JWKS, { issuer: 'https://YOUR_ISSUER/', audience: 'my-api' });
+    req.user = { id: payload.sub, tenantId: payload.tenant_id };
+    next();
+  } catch {
+    res.status(401).end();
+  }
+}
+
+-- Role chỉ đọc cho agent: prompt injection có thành công thì DB vẫn từ chối ghi
+-- CREATE ROLE agent_ro LOGIN PASSWORD '...';
+-- GRANT CONNECT ON DATABASE app TO agent_ro;
+-- GRANT USAGE ON SCHEMA public TO agent_ro;
+-- GRANT SELECT ON documents, orders TO agent_ro;      -- liệt kê bảng cần, không GRANT ALL
+-- ALTER ROLE agent_ro SET statement_timeout = '3s';
+</script>
+<script type="text/plain" id="code-s7">
+import { once } from 'node:events';
+
+app.get('/chat/stream', auth, async (req, res) => {
+  res.set({ 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' });
+  res.flushHeaders();
+
+  const ac = new AbortController();
+  res.on('close', () => ac.abort());                   // client đóng tab: huỷ luôn lời gọi LLM
+
+  const t0 = performance.now();
+  let first = true;
+  for await (const token of streamLLM(String(req.query.q), ac.signal)) {
+    if (first) { console.log('TTFT ms:', Math.round(performance.now() - t0)); first = false; }
+    if (!res.write(`data: ${JSON.stringify({ token })}\n\n`)) await once(res, 'drain'); // backpressure
+  }
+  res.write('event: done\ndata: {}\n\n');
+  res.end();
+});
+
+// Client: const es = new EventSource('/chat/stream?q=...'); es.onmessage = (e) => append(JSON.parse(e.data).token);
+// EventSource không gửi được header Authorization: dùng cookie, hoặc fetch + ReadableStream.
+// Đẩy cập nhật DB cùng kênh: LISTEN trên Postgres rồi res.write() mỗi khi có NOTIFY.
+</script>
+<script type="text/plain" id="code-s8">
+// otel.ts  (phải nạp TRƯỚC code app, vd: node --import ./otel.js app.js)
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+
+new NodeSDK({
+  serviceName: 'api',
+  traceExporter: new OTLPTraceExporter({ url: 'http://localhost:4318/v1/traces' }),
+  instrumentations: [getNodeAutoInstrumentations()],   // http, express, pg tự có span
+}).start();
+
+// llm.ts: span thủ công cho lời gọi LLM
+import { trace } from '@opentelemetry/api';
+const tracer = trace.getTracer('llm');
+
+export const chat = (model: string, prompt: string) =>
+  tracer.startActiveSpan('llm.call', async (span) => {
+    try {
+      // lưu hash, không lưu prompt thô nếu có thể chứa PII
+      span.setAttributes({ 'llm.model': model, 'llm.prompt_hash': sha256(prompt) });
+      const out = await callModel(model, prompt);
+      span.setAttributes({ 'llm.tokens.prompt': out.usage.prompt, 'llm.tokens.completion': out.usage.completion });
+      return out;
+    } finally {
+      span.end();
+    }
+  });
+// Prisma có tích hợp OpenTelemetry riêng cho span của query: xem docs đúng phiên bản bạn dùng.
+</script>
+<script type="text/plain" id="code-s9">
+# .github/workflows/ci.yml
+name: ci
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+jobs:
+  test:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env: { POSTGRES_PASSWORD: postgres }
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx prisma migrate deploy
+      - run: npm test
+
+  preview:
+    if: github.event.action != 'closed'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploy preview cho PR #${{ github.event.number }} rồi comment URL vào PR"
+
+  teardown:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Xoá preview env của PR #${{ github.event.number }}"
+</script>
+<script type="text/plain" id="code-s10">
+# Có Kubernetes: KEDA scale Deployment theo độ sâu queue (BullMQ lưu job chờ ở list này)
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata: { name: email-worker }
+spec:
+  scaleTargetRef: { name: email-worker }
+  minReplicaCount: 0              # queue rỗng thì về 0
+  maxReplicaCount: 10             # trần chi phí
+  cooldownPeriod: 120
+  triggers:
+    - type: redis
+      metadata:
+        address: redis:6379
+        listName: bull:email:wait
+        listLength: '50'          # khoảng 50 job chờ cho mỗi worker
+
+# Chưa có Kubernetes? Làm bản thủ công trước:
+#   mỗi 30s: n = await queue.getWaitingCount();
+#   desired = clamp(ceil(n / 50), MIN, MAX);  gọi API của nhà cung cấp để đổi số instance.
+# Luôn đặt CPU/RAM limits và gắn tag: team, env, owner để biết tiền đi đâu.
+</script>
+<script type="text/plain" id="code-s11">
+import CircuitBreaker from 'opossum';
+import { RateLimiterRedis } from 'rate-limiter-flexible';
+
+const breaker = new CircuitBreaker(callPaymentApi, {
+  timeout: 3000,                   // chậm hơn 3s tính là lỗi
+  errorThresholdPercentage: 50,    // từ 50% lỗi trở lên thì mở mạch
+  resetTimeout: 10_000,            // sau 10s thử lại (half-open)
+});
+breaker.fallback(() => ({ status: 'queued' }));          // degrade thay vì sập
+
+const limiter = new RateLimiterRedis({ storeClient: redis, points: 100, duration: 60 }); // 100 req/phút/user
+app.use(async (req, res, next) => {
+  try { await limiter.consume(req.user.id); next(); }
+  catch { res.status(429).set('Retry-After', '10').end(); }
+});
+
+// Chỉ một instance chạy job định kỳ: advisory lock theo transaction của Postgres
+// (dùng xact để khoá tự nhả, không rò khi connection nằm trong pool)
+await prisma.$transaction(async (tx) => {
+  const [{ locked }] = await tx.$queryRaw<{ locked: boolean }[]>`SELECT pg_try_advisory_xact_lock(42) AS locked`;
+  if (locked) await runNightlyJob(tx);
+}, { timeout: 60_000 });
+</script>
+<script type="text/plain" id="code-s12">
+# ADR-003: Dùng pg-boss thay vì Kafka cho hàng đợi job
+Trạng thái: Đã chấp nhận (<ngày>)
+
+## Bối cảnh
+Cần xử lý khoảng 50 job/s, đã có Postgres, đội 1 người, không muốn vận hành thêm cụm Kafka.
+
+## Quyết định
+Dùng pg-boss (hàng đợi chạy trên Postgres).
+
+## Phương án đã cân nhắc
+- Kafka: replay tốt nhưng vận hành nặng so với quy mô hiện tại.
+- BullMQ + Redis: nhanh, nhưng thêm một dependency cần backup.
+
+## Hệ quả
++ Bớt một hệ thống phải vận hành, enqueue chung transaction với dữ liệu.
+- Giới hạn throughput. Xem lại khi vượt khoảng 1.000 job/s (đo bằng benchmark #2).
+
+## Số đo
+p99 từ enqueue tới xong: 180 ms ở 50 job/s.
+</script>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const fmt=(n,d=0)=>n.toLocaleString('vi-VN',{maximumFractionDigits:d});
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const ctl=(id,label,min,max,val,step=1,u='')=>`<label class="ctl"><span>${label}</span><output id="${id}-o">${val}${u}</output><input type="range" id="${id}" min="${min}" max="${max}" value="${val}" step="${step}" data-u="${u}"></label>`;
+const bind=(ids,fn)=>{ids.forEach(id=>{const el=$('#'+id),o=$('#'+id+'-o');el.addEventListener('input',()=>{if(o&&el.type==='range')o.textContent=el.value+(el.dataset.u||'');fn()})});fn()};
+const onRadio=(name,fn)=>document.querySelectorAll(`input[name=${name}]`).forEach(r=>r.addEventListener('input',fn));
+const stat=a=>a.map(([n,v,c])=>`<div class="stat ${c||''}"><small>${n}</small><strong>${v}</strong></div>`).join('');
+const note=(id,cls,html)=>{const e=$(id);e.className='note '+cls;e.innerHTML=html};
+
+/* ---------- helper vẽ sơ đồ ---------- */
+const KC={a:'--accent',w:'--warn',b:'--bad',g:'--good',i:'--indigo','':'--muted'};
+const nd=(id,x,y,w,h,t,s,k,bg)=>({id,x,y,w,h,t,s,k:k||'',bg});
+function dg(W,H,nodes,edges,extra=''){
+ const N={};nodes.forEach(n=>N[n.id]=n);
+ let s=`<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker></defs>`;
+ nodes.forEach(n=>{const c=KC[n.k];
+  if(n.bg){s+=`<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="12" style="fill:none;stroke:var(${c});stroke-width:1.5;stroke-dasharray:5 4"/><text x="${n.x+10}" y="${n.y+16}" style="fill:var(${c});font-weight:600;font-size:11.5px">${n.t}</text>`;return}
+  const cx=n.x+n.w/2,cy=n.y+n.h/2;
+  s+=`<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="10" style="fill:color-mix(in srgb,var(${c}) 14%,var(--surface));stroke:var(${c});stroke-width:1.5"/><text x="${cx}" y="${cy+(n.s?-3:4)}" text-anchor="middle" style="fill:var(--ink);font-weight:600;font-size:12.5px">${n.t}</text>${n.s?`<text x="${cx}" y="${cy+13}" text-anchor="middle" style="font-size:10.5px">${n.s}</text>`:''}`});
+ edges.forEach(([a,b,l,f])=>{f=f||'';const A=N[a],B=N[b],ac={x:A.x+A.w/2,y:A.y+A.h/2},bc={x:B.x+B.w/2,y:B.y+B.h/2},dx=bc.x-ac.x,dy=bc.y-ac.y;let x1,y1,x2,y2;
+  if(f.includes('v')){x1=ac.x;x2=ac.x;y1=dy>0?A.y+A.h:A.y;y2=dy>0?B.y:B.y+B.h}
+  else if(Math.abs(dx)>=Math.abs(dy)){x1=dx>0?A.x+A.w:A.x;x2=dx>0?B.x:B.x+B.w;y1=ac.y;y2=bc.y}
+  else{x1=ac.x;x2=bc.x;y1=dy>0?A.y+A.h:A.y;y2=dy>0?B.y:B.y+B.h}
+  s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:var(--muted);stroke-width:1.6"${f.includes('d')?' stroke-dasharray="5 4"':''} marker-end="url(#ar)"/>`;
+  if(l)s+=`<text x="${(x1+x2)/2}" y="${(y1+y2)/2-6}" text-anchor="middle" style="font-size:10.5px">${l}</text>`});
+ return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Sơ đồ kiến trúc">${s}${extra}</svg>`;
+}
+
+/* ---------- Stage 1: event loop ---------- */
+function initS1(){bind(['a1-l','a1-c','a1-k'],()=>{
+ const lam=+$('#a1-l').value,c=+$('#a1-c').value,k=+$('#a1-k').value,dt=.001,T=15,r=rng(3);
+ const busy=[],q=[],lat=[],qs=[];let mq=0;
+ for(let i=0;i<T/dt;i++){const t=i*dt;
+  if(r()<lam*dt)q.push(t);
+  while(busy.length<k&&q.length){const a=q.shift();lat.push((t-a)*1000+c);busy.push(c/1000)}
+  for(let j=busy.length-1;j>=0;j--){busy[j]-=dt;if(busy[j]<=0)busy.splice(j,1)}
+  if(q.length>mq)mq=q.length;
+  if(i%100===0)qs.push(q.length)}
+ q.forEach(a=>lat.push((T-a)*1000+c));lat.sort((a,b)=>a-b);
+ const p50=lat[Math.floor(lat.length*.5)],p99=lat[Math.floor(lat.length*.99)],rho=lam*c/1000/k,ym=Math.max(10,mq);let d='';
+ qs.forEach((v,i)=>{d+=(i?'L':'M')+(i/(qs.length-1)*620+10).toFixed(1)+' '+(110-v/ym*90).toFixed(1)});
+ $('#a1-svg').innerHTML=`<line x1="10" x2="630" y1="110" y2="110" stroke="var(--line)"/><path d="${d}" fill="none" stroke="var(--bad)" stroke-width="2.5"/><text x="10" y="14">Số request đang chờ tới lượt chạy (đỉnh ${mq})</text><text x="10" y="130">0s</text><text x="630" y="130" text-anchor="end">15s</text>`;
+ $('#a1-stats').innerHTML=stat([['Mức bận của luồng xử lý',fmt(rho*100)+'%',rho>=.95?'bad':rho>=.7?'warn':'good'],['Latency p50',fmt(p50)+' ms',''],['Latency p99',fmt(p99)+' ms',p99>200?'bad':''],['Hàng đợi đỉnh',mq,mq>20?'bad':'']]);
+ note('#a1-note',rho>=.95?'bad':rho>=.7?'warn':'good',rho>=.95?`Quá tải: mỗi giây cần ${fmt(lam*c/1000,2)} giây CPU nhưng chỉ có ${k} luồng. Một đoạn code đồng bộ ${c}ms chặn <b>mọi</b> request khác, hàng đợi tăng mãi. Offload sang worker_threads hoặc giảm CPU mỗi request.`:rho>=.7?`Vùng nguy hiểm: luồng bận trên 70% nên chỉ cần một đợt tăng nhẹ là p99 vọt lên dù p50 còn đẹp.`:`Ổn: luồng xử lý còn dư chỗ. Kéo "CPU đồng bộ mỗi request" lên để thấy một request nặng làm chậm cả hàng.`);
+})}
+
+/* ---------- Stage 2: RLS + RRF ---------- */
+function initS2(){
+ const INV=[['A','INV-101','Hợp đồng ABC',1200],['A','INV-102','Gia hạn hosting',90],['A','INV-103','Tư vấn',450],['B','INV-201','Quảng cáo',3100],['B','INV-202','Thiết kế logo',800],['B','INV-203','Bảo trì',620]];
+ const draw=()=>{
+  const ten=$('input[name=b-ten]:checked').value,rls=$('#b-rls').checked,forgot=$('#b-w').checked;
+  const own=INV.filter(r=>r[0]===ten),vis=(rls||!forgot)?own:INV,leak=vis.filter(r=>r[0]!==ten).length;
+  $('#b-sql').textContent=`-- đăng nhập là tenant ${ten}\nSELECT * FROM invoices${forgot?'':` WHERE tenant_id = '${ten}'`};`;
+  $('#b-rows').innerHTML='<tr><th>Tenant</th><th>Mã</th><th>Nội dung</th><th>Số tiền</th></tr>'+vis.map(r=>`<tr class="${r[0]!==ten?'leak':''}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${fmt(r[3])}</td></tr>`).join('');
+  if(leak)note('#b-note','bad',`Rò dữ liệu: ${leak} dòng của tenant khác lọt vào kết quả chỉ vì một dev quên <code>WHERE tenant_id</code>.`);
+  else if(rls&&forgot)note('#b-note','good','RLS chặn ở tầng database: dù code quên WHERE, tenant này vẫn chỉ thấy dòng của mình. Đây là lưới an toàn khi AI hoặc đồng đội viết query thiếu điều kiện.');
+  else note('#b-note','warn','Đúng, nhưng an toàn chỉ nhờ mọi query đều nhớ viết WHERE. Một query quên là lộ dữ liệu. Bật RLS để database tự bảo vệ.');
+ };
+ ['b-rls','b-w'].forEach(i=>$('#'+i).addEventListener('input',draw));onRadio('b-ten',draw);draw();
+ const DOC=[['A','Cấu hình connection pool cho Postgres',1,3],['B','Postgres connection string là gì',2,6],['C','Chọn pool size và max_connections',3,2],['D','Hướng dẫn backup Postgres',4,5],['E','Cài Postgres trên Ubuntu',5,4],['F','App bị treo vì hết kết nối database',6,1]];
+ const sc=d=>1/(60+d[2])+1/(60+d[3]);
+ const draw2=()=>{const m=$('input[name=b-m]:checked').value;
+  const L=[...DOC].sort((a,b)=>m==='kw'?a[2]-b[2]:m==='vec'?a[3]-b[3]:sc(b)-sc(a)||a[0].localeCompare(b[0]));
+  $('#b-rk').innerHTML=L.map((d,i)=>`<li class="${d[0]==='F'?'star':''}"><span class="n">${i+1}</span><span>${d[1]}${d[0]==='F'?' <b style="color:var(--accent)">★ đáp án đúng nhất</b>':''}</span><small>từ khoá #${d[2]} · vector #${d[3]}${m==='rrf'?` · điểm ${(sc(d)*1000).toFixed(2)}`:''}</small></li>`).join('');
+  const pos=L.findIndex(d=>d[0]==='F')+1;
+  note('#b-rnote',pos<=2?'good':'warn',m==='kw'?`Chỉ khớp từ khoá: đáp án đúng nhất (không chứa chữ "pool") rơi xuống hạng ${pos}.`:m==='vec'?`Chỉ vector: hiểu ý nên đáp án đúng đứng hạng ${pos}, nhưng vector hay bỏ lỡ tên riêng, mã lỗi, từ khoá chính xác.`:`Hybrid (RRF): gộp thứ hạng của cả hai nên đáp án đúng lên hạng ${pos}, không cần chuẩn hoá điểm. Hybrid không thắng ở mọi query nhưng hiếm khi tệ.`);
+ };
+ onRadio('b-m',draw2);draw2();
+}
+
+/* ---------- Stage 3: queue / retry / DLQ ---------- */
+function initS3(){bind(['c-f','c-r','c-d'],draw);$('#c-i').addEventListener('input',draw);
+ function draw(){
+  const f=+$('#c-f').value/100,R=+$('#c-r').value,d=+$('#c-d').value/100,idem=$('#c-i').checked,N=1000,r=rng(9);
+  let first=0,retried=0,dlq=0,dup=0;
+  for(let i=0;i<N;i++){let ok=false,att=0;while(att<=R&&!ok){att++;if(r()>=f)ok=true}
+   if(ok){att===1?first++:retried++;if(r()<d&&!idem)dup++}else dlq++}
+  const seg=[[first,'--good','Xong ngay lần đầu'],[retried,'--warn','Xong sau retry'],[dlq,'--bad','Vào DLQ']];let x=10,s='';
+  seg.forEach(([v,c,l])=>{const w=v/N*620;s+=`<rect x="${x}" y="20" width="${w}" height="34" style="fill:var(${c})"/>`;if(w>46)s+=`<text x="${x+w/2}" y="41" text-anchor="middle" style="fill:#fff;font-weight:700">${v}</text>`;x+=w});
+  $('#c-svg').innerHTML=s+`<text x="10" y="14">${N} job: <tspan style="fill:var(--good)">xong lần đầu</tspan> · <tspan style="fill:var(--warn)">xong sau retry</tspan> · <tspan style="fill:var(--bad)">vào DLQ</tspan></text>`;
+  $('#c-stats').innerHTML=stat([['Xong lần đầu',first,'good'],['Xong sau retry',retried,retried?'warn':''],['Vào DLQ (cần người xử lý)',dlq,dlq?'bad':'good'],['Tác dụng phụ bị lặp',dup,dup?'bad':'good']]);
+  note('#c-note',dup?'bad':dlq?'warn':'good',dup?`Broker giao trùng (ví dụ mất ack) và consumer không idempotent: ${dup} email gửi hai lần hoặc trừ tiền hai lần. "Exactly-once" thực chất là at-least-once cộng consumer idempotent.`:idem?`Consumer idempotent: bản giao trùng bị bỏ qua nên tác dụng phụ không bị lặp. Retry chỉ nên dùng cho lỗi tạm thời, lỗi vĩnh viễn thì đẩy vào DLQ sớm.`:`Kéo tỉ lệ giao trùng lên để thấy hậu quả khi consumer không idempotent.`);
+ }}
+
+/* ---------- Stage 4: durable ---------- */
+function initS4(){
+ const ST=['Gửi email chào','Chờ 1 ngày','Tạo trial','Chờ 2 ngày','Email nhắc'];
+ let pos,dpos,m1,t1,m2,t2,msg;
+ const reset=()=>{pos=dpos=0;m1=t1=m2=t2=0;msg='Bấm "Chạy bước tiếp" vài lần, rồi thử "Restart server".';draw()};
+ const ex=(i,who)=>{if(i===0)who?m2++:m1++;if(i===2)who?t2++:t1++};
+ const pills=(p)=>ST.map((s,i)=>`<span class="pill ${i<p?'done':i===p?'cur':''}">${i+1}. ${s}</span>`).join('');
+ function draw(){
+  $('#d-naive').innerHTML=`<div class="pills">${pills(pos)}</div><p style="margin:8px 0 0;font-size:14px">Email chào đã gửi: <b style="color:var(--${m1>1?'bad':'ink'})">${m1} lần</b> · Trial đã tạo: <b style="color:var(--${t1>1?'bad':'ink'})">${t1} lần</b></p>`;
+  $('#d-dur').innerHTML=`<div class="pills">${pills(dpos)}</div><p style="margin:8px 0 0;font-size:14px">Email chào đã gửi: <b>${m2} lần</b> · Trial đã tạo: <b>${t2} lần</b></p>`;
+  note('#d-note',msg.includes('💥')?'warn':'',msg);
+ }
+ $('#d-next').onclick=()=>{if(pos<5){ex(pos,0);pos++}if(dpos<5){ex(dpos,1);dpos++}msg=pos===5&&dpos===5?'Cả hai đã chạy xong.':'Đã chạy một bước (các bước "Chờ" được tua nhanh).';draw()};
+ $('#d-crash').onclick=()=>{if(pos>0&&pos<5){pos=0;msg='💥 Server restart. Bản chỉ giữ trong RAM mất trạng thái và chạy lại từ đầu, nên email chào sẽ bị gửi lần nữa. Bản durable đọc lại bước đã xong từ Postgres và đi tiếp.'}else msg='Chạy vài bước (nhưng chưa xong hẳn) rồi mới restart để thấy khác biệt.';draw()};
+ $('#d-reset').onclick=reset;reset();
+}
+
+/* ---------- Stage 5: gateway ---------- */
+function initS5(){bind(['e-h','e-e','e-c'],()=>{
+ const h=+$('#e-h').value/100,e=+$('#e-e').value/100,c=+$('#e-c').value/100,N=1000,fb=.99;
+ const cache=N*h,prim=N*(1-h)*(1-e),fall=N*(1-h)*e*fb,fail=N*(1-h)*e*(1-fb);
+ const costGw=prim+fall*c,costNo=N*(1-e),upGw=(N-fail)/N,upNo=1-e;
+ const seg=[[cache,'--good','Cache'],[prim,'--accent','Model chính'],[fall,'--warn','Model rẻ'],[fail,'--bad','Lỗi']];let x=10,s='';
+ seg.forEach(([v,cl,l])=>{const w=v/N*620;s+=`<rect x="${x}" y="22" width="${w}" height="34" style="fill:var(${cl})"/>`;if(w>52)s+=`<text x="${x+w/2}" y="43" text-anchor="middle" style="fill:#fff;font-weight:700">${fmt(v)}</text>`;x+=w});
+ $('#e-svg').innerHTML=s+`<text x="10" y="14">1.000 request: <tspan style="fill:var(--good)">cache</tspan> · <tspan style="fill:var(--accent)">model chính</tspan> · <tspan style="fill:var(--warn)">model rẻ</tspan> · <tspan style="fill:var(--bad)">lỗi</tspan></text>`;
+ $('#e-stats').innerHTML=stat([['Request thành công (có gateway)',fmt(upGw*100,1)+'%','good'],['Request thành công (không gateway)',fmt(upNo*100,1)+'%',e>.05?'bad':''],['Chi phí so với không gateway',fmt(costGw/costNo*100)+'%',costGw<costNo?'good':'warn'],['Gọi model chính tiết kiệm',fmt((1-prim/(N*(1-e)))*100)+'%','']]);
+ note('#e-note','',`Cache hit ${fmt(h*100)}% giảm cả tiền lẫn latency. Fallback sang model rẻ giữ uptime khi nhà cung cấp lỗi. Cẩn thận: hit rate cao nhờ semantic cache với ngưỡng thấp có thể trả lời <b>sai ngữ cảnh</b>. Hãy đo tỉ lệ hit đúng chứ không chỉ tỉ lệ hit. (Giả định: lỗi 503 không bị tính tiền, model rẻ đạt 99%.)`);
+})}
+
+/* ---------- Stage 6: PII ---------- */
+function initS6(){
+ const RX=[['tk',/Bearer\s+[A-Za-z0-9._~+\/-]+=*/g,'Bearer [TOKEN]','token'],['em',/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g,'[EMAIL]','email'],['cd',/\b(?:\d[ -]?){13,16}\b/g,'[CARD]','thẻ'],['ph',/(?:\+84|\b0)\d{9,10}\b/g,'[PHONE]','điện thoại']];
+ $('#f-in').value='[2026-10-13 09:41:07] POST /chat user=nguyen.van@example.com phone=0912345678 card=4111 1111 1111 1111 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.abc.def prompt="Tóm tắt hợp đồng giúp tôi"';
+ const draw=()=>{let t=$('#f-in').value,c=[];
+  RX.forEach(([k,rx,rep,n])=>{if($('#f-'+k).checked){let cnt=0;t=t.replace(rx,()=>{cnt++;return rep});if(cnt)c.push(`${cnt} ${n}`)}});
+  $('#f-out').textContent=t;
+  note('#f-note',c.length?'good':'warn',c.length?`Đã che: ${c.join(', ')}. Regex chỉ là lớp phòng thủ nông: nó bỏ sót tên người, địa chỉ, số CMND. Lớp chắc hơn là chỉ ghi log các trường nằm trong allowlist, và dùng <code>pino redact</code> theo đường dẫn field.`:'Chưa che gì. Log như thế này sẽ giữ PII ở mọi nơi log được gửi tới.');
+ };
+ ['f-in','f-tk','f-em','f-cd','f-ph'].forEach(i=>$('#'+i).addEventListener('input',draw));draw();
+}
+
+/* ---------- Stage 7: SSE vs chờ đủ ---------- */
+function initS7(){
+ const W='Pool kết nối bị cạn khi số request đồng thời vượt quá số connection tối đa mà database cho phép nên các request phải xếp hàng chờ, và nếu hàng đợi quá dài thì người dùng sẽ thấy timeout dù database vẫn còn rảnh'.split(' ');
+ let timer=null;
+ bind(['g-t','g-r'],()=>{const t=+$('#g-t').value,r=+$('#g-r').value;$('#g-sum').textContent=`Chữ đầu tiên hiện sau: chờ đủ = ${fmt(t+W.length/r*1000)} ms, stream = ${fmt(t)} ms`});
+ $('#g-go').onclick=()=>{
+  clearInterval(timer);const t=+$('#g-t').value,r=+$('#g-r').value,tot=t+W.length/r*1000,t0=performance.now();
+  timer=setInterval(()=>{const el=performance.now()-t0;
+   $('#g-a').innerHTML=el<tot?`<span class="spin"></span> đang chờ... (${fmt(el)} ms)`:W.join(' ');
+   if(el<t)$('#g-b').innerHTML=`<span class="spin"></span> đang chờ token đầu tiên... (${fmt(el)} ms)`;
+   else{const n=Math.min(W.length,Math.floor((el-t)*r/1000)+1);$('#g-b').textContent=W.slice(0,n).join(' ')}
+   if(el>tot+150)clearInterval(timer)},40)};
+ $('#g-a').textContent='Bấm "Gửi prompt".';$('#g-b').textContent='Bấm "Gửi prompt".';
+}
+
+/* ---------- Stage 8: trace waterfall ---------- */
+function initS8(){
+ let sel=4;
+ const AT=[['http.method = POST','http.route = /chat','user.id = u_123'],['jwt.issuer = https://…','auth.result = ok'],['embedding.model = (tên model)','input_tokens = 18'],['db.system = postgresql','db.statement = SELECT … ORDER BY embedding <=> $1 LIMIT 5','db.rows = 5'],['llm.model = (tên model)','llm.tokens.prompt = 1820','llm.tokens.completion = 240','llm.prompt_hash = 9f2c…'],['db.statement = INSERT INTO messages …']];
+ const draw=()=>{
+  const d=+$('#h-d').value,l=+$('#h-l').value,e=+$('#h-e').value;
+  const sp=[['POST /chat',0,8+e+d+l+12],['auth.verify',0,8],['embedding.create',8,e],['pg: vector search',8+e,d],['llm.call',8+e+d,l],['pg: insert message',8+e+d+l,12]];
+  const tot=sp[0][2],X0=170,SW=400,sc=v=>v/tot*SW;let slow=1;sp.forEach((p,i)=>{if(i>0&&p[2]>sp[slow][2])slow=i});
+  let s='';sp.forEach((p,i)=>{const y=12+i*30,w=Math.max(3,sc(p[2]));
+   s+=`<text x="8" y="${y+15}" style="fill:var(--ink)">${p[0]}</text><rect data-i="${i}" x="${X0+sc(p[1])}" y="${y}" width="${w}" height="22" rx="4" style="fill:${i===slow?'var(--bad)':i===0?'var(--muted)':'var(--accent)'};opacity:${i===sel?1:.65};cursor:pointer;stroke:var(--ink);stroke-width:${i===sel?2:0}"/><text x="${X0+sc(p[1])+w+6}" y="${y+15}">${fmt(p[2])} ms</text>`});
+  $('#h-svg').innerHTML=s;
+  $('#h-attr').innerHTML=`<b>${sp[sel][0]}</b><ul style="margin:6px 0 0;padding-left:18px">${AT[sel].map(a=>`<li><code>${esc(a)}</code></li>`).join('')}</ul>`;
+  note('#h-note','',`Span chậm nhất: <b>${sp[slow][0]}</b>, chiếm ${fmt(sp[slow][2]/tot*100)}% thời gian. ${slow===4?'Tối ưu SQL ở đây gần như vô ích: thời gian nằm ở lời gọi LLM (cân nhắc stream, model nhỏ hơn, cache).':'Đây là chỗ đáng tối ưu trước tiên.'} Bấm vào một thanh để xem attribute của span.`);
+ };
+ $('#h-svg').addEventListener('click',e=>{const r=e.target.closest('rect');if(r){sel=+r.dataset.i;draw()}});
+ bind(['h-d','h-l','h-e'],draw);
+}
+
+/* ---------- Stage 9: preview env ---------- */
+function initS9(){
+ let prs=[],n=0;
+ const draw=()=>{const td=$('#i-td').checked,open=prs.filter(p=>p.open).length,alive=prs.filter(p=>p.env).length,orph=prs.filter(p=>p.env&&!p.open).length;
+  $('#i-envs').innerHTML=prs.filter(p=>p.env).map(p=>`<span class="env ${p.open?'':'orphan'}" title="PR #${p.n}"></span>`).join('')||'<em style="color:var(--muted);font-size:14px">Chưa có môi trường nào</em>';
+  $('#i-stats').innerHTML=stat([['PR đang mở',open,''],['Môi trường đang chạy',alive,''],['Môi trường mồ côi',orph,orph?'bad':'good'],['Chi phí giả định / tháng','$'+fmt(alive*0.9*30),orph?'bad':'']]);
+  note('#i-note',orph?'bad':'good',orph?`${orph} môi trường vẫn chạy dù PR đã đóng: chi phí tăng âm thầm mỗi tuần. Luôn có bước teardown khi PR đóng, kèm một job dọn môi trường quá 7 ngày làm lưới an toàn.`:'Mỗi PR có môi trường riêng và bị xoá khi đóng. Chi phí chỉ tính cho thứ đang được review. (Giả định: 1 môi trường khoảng $0,9/ngày, chỉ để minh hoạ.)');
+  $('#i-close').disabled=!open;
+ };
+ $('#i-open').onclick=()=>{prs.push({n:++n,open:true,env:true});draw()};
+ $('#i-close').onclick=()=>{const p=prs.find(p=>p.open);if(p){p.open=false;if($('#i-td').checked)p.env=false}draw()};
+ $('#i-reset').onclick=()=>{prs=[];n=0;draw()};$('#i-td').addEventListener('input',draw);draw();
+}
+
+/* ---------- Stage 10: autoscale ---------- */
+function initS10(){bind(['j-b','j-s'],()=>{
+ const B=+$('#j-b').value,S=+$('#j-s').value,mu=5,dt=5,T=1800,MAX=20,lam=t=>(t>=400&&t<800)?45:5;
+ let depth=0,rw=1,pend=[],cost=0,peakD=0,peakW=1,over=0;const WS=[],DS=[];
+ for(let t=0;t<T;t+=dt){
+  pend=pend.filter(rt=>{if(t>=rt){rw++;return false}return true});
+  const desired=Math.min(MAX,Math.max(1,Math.ceil(depth/B))),total=rw+pend.length;
+  if(desired>total)for(let i=0;i<desired-total;i++)pend.push(t+S);
+  if(desired<rw)rw=desired;
+  depth+=lam(t)*dt;depth-=Math.min(depth,rw*mu*dt);
+  cost+=(rw+pend.length)*dt;peakD=Math.max(peakD,depth);peakW=Math.max(peakW,rw);if(depth>200)over+=dt;
+  WS.push(rw);DS.push(depth)}
+ const fixed=9*T,ym=Math.max(200,peakD),path=(a,top,h,mx)=>a.map((v,i)=>(i?'L':'M')+(10+i/(a.length-1)*620).toFixed(1)+' '+(top+h-v/mx*h).toFixed(1)).join('');
+ $('#j-svg').innerHTML=`<text x="10" y="12">Số worker đang chạy (tối đa ${MAX})</text><line x1="10" x2="630" y1="100" y2="100" stroke="var(--line)"/><path d="${path(WS,18,82,MAX)}" fill="none" stroke="var(--accent)" stroke-width="2.5"/><text x="10" y="126">Job tồn đọng trong queue (đỉnh ${fmt(peakD)})</text><line x1="10" x2="630" y1="210" y2="210" stroke="var(--line)"/><path d="${path(DS,132,78,ym)}" fill="none" stroke="var(--bad)" stroke-width="2.5"/><text x="10" y="226">0 phút</text><text x="630" y="226" text-anchor="end">30 phút (spike từ phút 7 tới 13)</text>`;
+ $('#j-stats').innerHTML=stat([['Backlog đỉnh',fmt(peakD)+' job',peakD>500?'bad':peakD>200?'warn':'good'],['Worker đỉnh',peakW,''],['Thời gian backlog > 200 job',fmt(over)+' s',over>60?'bad':'good'],['Chi phí so với cấp cố định 9 worker',fmt(cost/fixed*100)+'%',cost<fixed?'good':'warn']]);
+ note('#j-note','',`Scale theo <b>độ sâu queue</b>, không theo CPU: worker chờ I/O có CPU thấp nhưng queue vẫn đầy. Thời gian khởi động ${S}s là lý do backlog vẫn phình lên đầu spike: tăng "job tồn đọng cho mỗi worker" thì rẻ hơn nhưng chậm hơn. Giữ tối thiểu 1 worker để tránh cold start (giả định mỗi worker xử lý 5 job/s).`);
+})}
+
+/* ---------- Stage 11: circuit breaker ---------- */
+function initS11(){
+ let st='closed',fails=0,until=0,real=0,err=0,blk=0,log=[],timer=null;
+ const add=m=>{log.unshift(m);log=log.slice(0,6)};
+ const draw=()=>{
+  $('#k-state').className='state '+st;$('#k-state').textContent=st==='closed'?'CLOSED: cho gọi qua':st==='open'?'OPEN: chặn nhanh':'HALF-OPEN: thử 1 lần';
+  $('#k-stats').innerHTML=stat([['Gọi thật thành công',real,'good'],['Gọi thật lỗi (chờ timeout)',err,err?'warn':''],['Bị chặn nhanh (không chờ)',blk,blk?'good':'']]);
+  $('#k-log').innerHTML=log.map(l=>`<li>${l}</li>`).join('')||'<li>Bấm "Bắt đầu mô phỏng", rồi tick "Dependency đang chết".</li>';};
+ const tick=()=>{const dead=$('#k-dead').checked,now=performance.now();
+  if(st==='open'&&now>=until){st='half';add('→ HALF-OPEN: cho thử 1 request')}
+  if(st==='open')blk++;
+  else if(dead){err++;fails++;if(st==='half'||fails>=5){st='open';until=now+3000;fails=0;add('→ OPEN: chặn gọi trong 3 giây (đỡ tự DDoS dependency)')}}
+  else{real++;if(st==='half'){st='closed';add('→ CLOSED: dependency đã khoẻ lại')}fails=0}
+  draw()};
+ $('#k-go').onclick=()=>{if(timer){clearInterval(timer);timer=null;$('#k-go').textContent='Bắt đầu mô phỏng'}else{timer=setInterval(tick,250);$('#k-go').textContent='Tạm dừng'}};
+ $('#k-reset').onclick=()=>{st='closed';fails=0;real=err=blk=0;log=[];draw()};draw();
+}
+
+/* ---------- Stage 12: before/after ---------- */
+function initS12(){
+ const draw=()=>{const b=+$('#l-b').value,a=+$('#l-a').value,w=$('#l-w').value.trim()||'thêm composite index';
+  const pct=Math.round((1-a/b)*100);
+  $('#l-out').textContent=`Giảm p99 của GET /orders từ ${fmt(b)}ms xuống ${fmt(a)}ms (${pct>=0?'−':'+'}${Math.abs(pct)}%) bằng cách ${w}. Đo bằng autocannon, 50 kết nối, 20 giây, cùng dữ liệu 2 triệu dòng.`;
+  note('#l-note',pct>=50?'good':'warn',pct>=50?'Câu chuyện có số đo trước và sau, cùng điều kiện đo, và nói rõ đã đổi đúng một thứ. Đó là điều làm người đọc tin bạn.':'Cải thiện còn nhỏ. Thử tìm bottleneck lớn hơn (xem trace) trước khi viết bài.');};
+ bind(['l-b','l-a'],draw);$('#l-w').addEventListener('input',draw);
+}
+
+/* ---------- Dữ liệu 12 stage ---------- */
+const S=[
+{id:'s1',ph:1,wk:'Tuần 1–2',nav:'Node runtime',short:['Node','runtime'],t:'Node.js đến tận runtime: concurrency không làm sập server',
+ why:'Mentor gốc bảo dev Go/Python học goroutine và async. Với bạn, ngôn ngữ đã có sẵn, nên đào sâu <b>runtime</b>: một request CPU nặng có thể làm cả server Node đứng hình, và AI thường viết code đúng chức năng nhưng không biết nó chặn event loop. Hiểu chỗ này là điều kiện để mọi stage sau không sụp.',
+ orig:'Học Go/Rust/Python nâng cao, dựng HTTP server chịu 10.000+ kết nối đồng thời.',change:'Giữ Node.js. Học event loop, worker_threads, streams và đo lag. Dựng server <code>node:http</code> thuần chịu 10.000 kết nối, rồi cố tình làm nó chậm và sửa.',
+ rel:'p99 latency, backpressure',
+ dg:[760,215,[nd('c',10,60,110,60,'10k clients','keep-alive'),nd('el',170,60,150,60,'Event loop','1 thread, JS','a'),nd('tp',380,8,150,50,'libuv pool','fs, crypto, dns'),nd('wt',380,80,150,50,'worker_threads','CPU nặng','w'),nd('db',380,152,150,50,'Postgres pool','max 10'),nd('bl',170,152,150,50,'Code đồng bộ nặng','','b')],[['c','el','request'],['el','tp'],['el','wt','offload'],['el','db','I/O bất đồng bộ'],['bl','el','đóng băng','dv']]],
+ w:`<div class="ctls">${ctl('a1-l','Request mỗi giây',10,300,100)}${ctl('a1-c','CPU đồng bộ mỗi request (ms)',1,30,5)}${ctl('a1-k','Số luồng xử lý CPU (1 = chạy thẳng trên event loop)',1,4,1)}</div><svg id="a1-svg" viewBox="0 0 640 140"></svg><div class="stats" id="a1-stats"></div><div class="note" id="a1-note"></div>`,init:initS1,
+ learn:['Event loop và các phase; vì sao <code>await</code> không làm code đồng bộ hết chặn','<code>worker_threads</code> và khi nào chỉ cần async I/O','Streams và backpressure (<code>pipeline</code>)','Đo bằng <code>monitorEventLoopDelay</code>, heap snapshot cơ bản','Giới hạn file descriptor khi load test (<code>ulimit -n</code>)'],
+ build:'Server HTTP thuần giữ 10.000 kết nối. Thêm endpoint băm mật khẩu hoặc <code>JSON.parse</code> file lớn, đo lag, rồi sửa bằng worker pool.',
+ dod:['Load test 1.000 rồi 10.000 kết nối đồng thời, server không crash và có biểu đồ latency','Tái hiện event loop lag trên 200ms bằng code đồng bộ, rồi đưa về dưới 50ms bằng worker','Viết 5 dòng giải thích vì sao một request 50ms CPU làm p99 của mọi request tăng'],
+ give:'Dựng khung server, script autocannon, giải thích event loop bằng ví dụ.',own:'Tái hiện lag, đọc kết quả load test, quyết định việc nào cần offload.',
+ trap:'Tạo một Worker cho mỗi request tốn hơn cả việc cần offload. Dùng pool (ví dụ piscina).',code:'s1'},
+
+{id:'s2',ph:1,wk:'Tuần 3–5',nav:'Postgres + vector',short:['Postgres','+ vector'],t:'Postgres làm trung tâm: RLS, pgvector, hybrid search',
+ why:'Ở thời AI, dữ liệu có cấu trúc và embedding sống chung một database. Với PERN bạn có lợi thế lớn: Postgres làm được cả hai nhờ pgvector. Và khi AI viết query thay bạn, <b>RLS</b> là lưới an toàn ở tầng database để một câu SQL thiếu điều kiện không làm lộ dữ liệu khách hàng.',
+ orig:'PostgreSQL sâu, pgvector, ClickHouse, Redis; dựng DB đa tenant với RLS và hybrid search (BM25 + vector).',change:'Giữ Postgres, pgvector, Redis. Hoãn ClickHouse (dùng materialized view và partition trước). Hybrid search = full-text của Postgres + vector, gộp bằng RRF.',
+ rel:'connection pooling, EXPLAIN ANALYZE, write amplification',
+ dg:[760,215,[nd('pgbox',170,6,290,196,'PostgreSQL · RLS theo tenant','','g',true),nd('app',10,60,110,56,'Express','Prisma','a'),nd('vec',190,40,250,52,'pgvector','HNSW · khoảng cách cosine'),nd('fts',190,108,250,52,'Full-text','tsvector + GIN'),nd('fuse',500,74,120,52,'RRF','gộp 2 xếp hạng','a'),nd('out',660,74,90,52,'Top-K','kết quả'),nd('redis',10,152,110,50,'Redis','cache-aside','w')],[['app','vec','embedding'],['app','fts','từ khoá'],['vec','fuse'],['fts','fuse'],['fuse','out'],['redis','app','cache','dv']]],
+ w:`<h4 style="margin-top:0">1) Quên WHERE tenant_id: RLS cứu hay không?</h4><div class="radios"><label><input type="radio" name="b-ten" value="A" checked> Đăng nhập là tenant A</label><label><input type="radio" name="b-ten" value="B"> Đăng nhập là tenant B</label></div><div class="ctls"><label class="chk"><input type="checkbox" id="b-rls"> Bật RLS</label><label class="chk"><input type="checkbox" id="b-w" checked> Dev quên <code>WHERE tenant_id</code></label></div><pre class="sql" id="b-sql"></pre><table class="rows" id="b-rows"></table><div class="note" id="b-note"></div><h4>2) Hybrid search: truy vấn "pool kết nối bị cạn"</h4><div class="radios"><label><input type="radio" name="b-m" value="kw"> Chỉ từ khoá</label><label><input type="radio" name="b-m" value="vec"> Chỉ vector</label><label><input type="radio" name="b-m" value="rrf" checked> Hybrid (RRF)</label></div><ul class="rk" id="b-rk"></ul><div class="note" id="b-rnote"></div>`,init:initS2,
+ learn:['EXPLAIN ANALYZE, index, connection pool (nhắc lại từ trang 10 khái niệm)','RLS: policy, <code>FORCE</code>, và bẫy superuser bỏ qua RLS','pgvector: HNSW và IVFFlat, chọn kích thước vector','Full-text search và Reciprocal Rank Fusion','Redis cache-aside và khi nào KHÔNG nên cache'],
+ build:'Ứng dụng ghi chú/tài liệu đa tenant: mỗi tenant chỉ thấy dữ liệu của mình (RLS), tìm kiếm hybrid bằng full-text + vector.',
+ dod:['Hai tenant không thấy dữ liệu của nhau, kể cả khi cố tình viết query thiếu WHERE (có test tự động)','Bảng 10 truy vấn mẫu so sánh kết quả: chỉ từ khoá, chỉ vector, hybrid','EXPLAIN ANALYZE cho truy vấn vector có dùng HNSW index và ghi lại số ms'],
+ give:'Viết migration, policy RLS, SQL hybrid, hàm gọi API embedding.',own:'Test cách ly tenant bằng hai role, đọc plan, chọn tham số index, đánh giá chất lượng kết quả.',
+ trap:'RLS cùng connection pool: nếu đặt tenant ngoài transaction, giá trị có thể sót sang request khác. Luôn dùng <code>set_config(…, true)</code> bên trong transaction.',code:'s2'},
+
+{id:'s3',ph:2,wk:'Tuần 6–7',nav:'Event-driven',short:['Event','driven'],t:'Event-driven: hàng đợi, event bất biến, retry và DLQ',
+ why:'Lời gọi LLM chậm và hay lỗi, nên không thể chặn request chờ nó. Bạn cần đưa việc nặng ra hàng đợi và chịu được lỗi giữa chừng. Đây cũng là chỗ bạn học nguyên tắc nền: broker chỉ cho at-least-once, vì vậy consumer phải idempotent.',
+ orig:'Kafka, NATS hoặc RabbitMQ; pub/sub, event sourcing, DLQ, exactly-once. Dựng pipeline đơn hàng với event bất biến.',change:'Bắt đầu với BullMQ (Redis) hoặc pg-boss (Postgres). Event bất biến = bảng append-only trong Postgres. Kafka để sau, khi cần replay hoặc throughput lớn.',
+ rel:'idempotency key, outbox, change data capture',
+ dg:[760,185,[nd('api',10,64,100,56,'API'),nd('db',150,64,130,56,'Postgres','order_events','g'),nd('q',320,64,110,56,'Queue','BullMQ / pg-boss','a'),nd('w1',480,14,130,48,'Worker email'),nd('w2',480,114,130,48,'Worker kho'),nd('dlq',650,64,100,56,'DLQ','xem + replay','b')],[['api','db','ghi event'],['db','q','outbox'],['q','w1'],['q','w2'],['w1','dlq','lỗi ×3','d'],['w2','dlq','','d']]],
+ w:`<div class="ctls">${ctl('c-f','Tỉ lệ lỗi mỗi lần xử lý',0,80,30,1,'%')}${ctl('c-r','Số lần retry tối đa',0,5,3)}${ctl('c-d','Tỉ lệ broker giao trùng',0,20,5,1,'%')}<label class="chk"><input type="checkbox" id="c-i"> Consumer idempotent</label></div><svg id="c-svg" viewBox="0 0 640 66"></svg><div class="stats" id="c-stats"></div><div class="note" id="c-note"></div>`,init:initS3,
+ learn:['Queue và pub/sub khác nhau ở đâu','At-least-once cộng consumer idempotent','Event bất biến và tính trạng thái bằng cách gấp event','Retry với backoff, DLQ, replay','Outbox pattern để ghi DB và gửi event không lệch nhau'],
+ build:'Pipeline đơn hàng: mọi thay đổi trạng thái là một dòng event bất biến, worker retry rồi đẩy vào DLQ, consumer idempotent.',
+ dod:['Trạng thái đơn hàng tính được từ <code>order_events</code>, và transition không hợp lệ bị từ chối','Worker retry 3 lần rồi vào DLQ; có lệnh hoặc màn hình xem và replay DLQ','Bắn trùng một event hai lần, hệ thống vẫn chỉ có đúng một tác dụng'],
+ give:'Boilerplate queue/worker, schema events, code retry.',own:'Định nghĩa trạng thái hợp lệ, chứng minh idempotent, thử tiêm lỗi và kill worker giữa chừng.',
+ trap:'Tin vào "exactly-once" của broker. Thực tế bạn có at-least-once, phần còn lại là việc của consumer.',code:'s3'},
+
+{id:'s4',ph:2,wk:'Tuần 8–9',nav:'Durable workflow',short:['Durable','workflow'],t:'Durable execution: workflow sống sót qua restart',
+ why:'Agent AI chạy nhiều bước, có chờ, có gọi API ngoài và đôi khi kéo dài nhiều ngày. Background job kiểu "chạy rồi quên" mất hết trạng thái khi server restart. Học cách lưu tiến độ bền vững là bước nhảy từ "gửi email" sang "điều phối tác vụ nhiều bước".',
+ orig:'Temporal hoặc Inngest; state machine, saga, retry vô hạn, checkpoint. Dựng workflow onboarding 3 ngày sống sót qua restart.',change:'Tự làm bản tối giản bằng state machine trong Postgres để hiểu bản chất, sau đó thử Inngest (TypeScript-first) hoặc Temporal. Test nhanh bằng cách rút ngắn 3 ngày thành 3 phút.',
+ rel:'idempotency key',
+ dg:[760,190,[nd('t',10,26,90,50,'Signup'),nd('s1',130,26,110,50,'Email chào'),nd('w1',270,26,90,50,'Chờ 1 ngày','','w'),nd('s2',390,26,110,50,'Tạo trial'),nd('w2',530,26,90,50,'Chờ 2 ngày','','w'),nd('s3',650,26,100,50,'Email nhắc'),nd('st',130,122,490,52,'Postgres: workflow_state','bước đã xong · kết quả · thời điểm thức dậy','a')],[['t','s1'],['s1','w1'],['w1','s2'],['s2','w2'],['w2','s3'],['s1','st','','dv'],['s2','st','','dv'],['w2','st','','dv']]],
+ w:`<div class="btns"><button class="btn primary" id="d-next">Chạy bước tiếp</button><button class="btn danger" id="d-crash">💥 Restart server</button><button class="btn" id="d-reset">Làm lại</button></div><div class="lanes"><div class="lane"><h4>Job chỉ giữ trạng thái trong RAM</h4><div id="d-naive"></div></div><div class="lane"><h4>Durable: tiến độ lưu trong Postgres</h4><div id="d-dur"></div></div></div><div class="note" id="d-note"></div>`,init:initS4,
+ learn:['State machine và bước nào có tác dụng phụ','Idempotency key cho từng bước','Saga và bù trừ (compensation) khi một bước thất bại','Timer bền (sleep nhiều ngày) và retry có giới hạn','So sánh bản tự viết với Inngest/Temporal'],
+ build:'Workflow onboarding: email chào, chờ 1 ngày, tạo trial, chờ 2 ngày, email nhắc. Kiểm thử với thời gian rút gọn.',
+ dod:['Workflow (rút còn 3 phút) vẫn chạy tiếp sau khi <code>kill -9</code> server giữa chừng','Restart không gửi email trùng nhờ idempotency key ở từng bước','Có trang xem trạng thái workflow: đang ở bước nào, lỗi gì, lần thức dậy kế tiếp'],
+ give:'Dựng khung state machine, helper tính thời gian, mock API ngoài.',own:'Quyết định bước nào có side effect, chạy <code>kill -9</code> tại từng bước và kiểm tra kết quả.',
+ trap:'Một bước vừa gọi API ngoài vừa ghi DB mà không idempotent: restart sẽ làm nó hai lần.',code:'s4'},
+
+{id:'s5',ph:2,wk:'Tuần 10–11',nav:'AI gateway',short:['AI','gateway'],t:'AI gateway: cache, fallback, ngân sách token',
+ why:'API LLM vừa đắt vừa hay lỗi. Một lớp gateway nhỏ trước LLM là nơi bạn bảo vệ hoá đơn và uptime. Đây cũng là bài tập tổng hợp hay: Express, Redis, Postgres và pgvector cùng làm việc.',
+ orig:'Rate limiting, token budget, semantic cache, fallback routing; dựng proxy cache prompt trùng và tự chuyển model rẻ khi 503.',change:'Giữ nguyên. Gateway bằng Express, exact cache bằng Redis, semantic cache bằng pgvector, bảng usage trong Postgres.',
+ rel:'tail latency amplification, p99',
+ dg:[760,215,[nd('cl',10,70,90,56,'Client'),nd('gw',150,60,150,76,'AI Gateway','auth · budget · limit','a'),nd('ca',360,8,160,52,'Cache','Redis + pgvector','g'),nd('p',360,86,160,52,'Model chính'),nd('f',580,86,160,52,'Model rẻ hơn','','w'),nd('led',150,156,150,48,'Postgres','usage + chi phí')],[['cl','gw'],['gw','ca','1) tra cache'],['gw','p','2) miss'],['p','f','503 / timeout','d'],['gw','led','','dv']]],
+ w:`<div class="ctls">${ctl('e-h','Tỉ lệ cache hit',0,80,30,1,'%')}${ctl('e-e','Tỉ lệ model chính lỗi (503, timeout)',0,30,8,1,'%')}${ctl('e-c','Giá model rẻ so với model chính',5,60,20,1,'%')}</div><svg id="e-svg" viewBox="0 0 640 66"></svg><div class="stats" id="e-stats"></div><div class="note" id="e-note"></div>`,init:initS5,
+ learn:['Rate limit và token budget theo user/tenant','Exact cache và semantic cache (ngưỡng similarity)','Timeout, retry, fallback: lỗi nào đáng retry','Ghi usage ledger để biết tiền đi đâu','Giữ cache tách theo tenant và theo system prompt'],
+ build:'Proxy <code>/v1/chat</code> cache prompt trùng, tự chuyển sang model rẻ khi model chính lỗi, giới hạn token theo user mỗi ngày.',
+ dod:['Cache exact hoạt động; đo hit rate trên 100 request mẫu','Giả lập model chính lỗi 30%, gateway vẫn trả lời nhờ fallback','Vượt ngân sách token thì trả 429 kèm số token còn lại'],
+ give:'Code proxy, regex, retry, truy vấn pgvector.',own:'Chọn ngưỡng similarity, đo tỉ lệ hit đúng và hit sai, đối chiếu chi phí với hoá đơn thật.',
+ trap:'Đặt ngưỡng semantic cache quá thấp: câu hỏi "na ná" nhận câu trả lời của ngữ cảnh khác, thậm chí của tenant khác.',code:'s5'},
+
+{id:'s6',ph:3,wk:'Tuần 12–13',nav:'Security',short:['Security',''],t:'Identity và security: khi AI agent có thể ghi vào database',
+ why:'Khi agent có quyền ghi, một prompt injection trở thành sự cố dữ liệu. Prompt không phải ranh giới bảo mật, quyền ở tầng database mới là. Junior thường bỏ qua phần này vì "chưa có người dùng thật", nhưng thói quen đúng phải hình thành từ sớm.',
+ orig:'OAuth2, OIDC, JWT, PII redaction, agent sandboxing, least privilege; middleware che PII và agent chỉ có role read-only.',change:'Dùng OIDC provider có sẵn thay vì tự viết đăng nhập. Tự làm: verify JWT đúng cách, che PII bằng <code>pino redact</code>, role Postgres chỉ-đọc cho agent.',
+ rel:'',
+ dg:[760,190,[nd('b',10,56,90,52,'Client'),nd('m1',130,56,110,52,'verify JWT','OIDC provider'),nd('m2',270,56,110,52,'tenant ctx','set_config tenant'),nd('m3',410,56,110,52,'log redact','che PII'),nd('ag',550,8,190,52,'AI agent','tool: chỉ đọc','w'),nd('db',550,116,190,56,'Postgres','role agent_ro: SELECT','g')],[['b','m1'],['m1','m2'],['m2','m3'],['m3','ag'],['ag','db','chỉ SELECT','dv'],['m3','db','ghi (app role)','d']]],
+ w:`<p style="margin:0 0 8px;font-size:14.5px">Dán đoạn log của bạn và bật/tắt từng loại để xem phần nào bị che.</p><textarea id="f-in" aria-label="Đoạn log"></textarea><div class="ctls" style="margin-top:10px"><label class="chk"><input type="checkbox" id="f-tk" checked> Token</label><label class="chk"><input type="checkbox" id="f-em" checked> Email</label><label class="chk"><input type="checkbox" id="f-cd" checked> Số thẻ</label><label class="chk"><input type="checkbox" id="f-ph" checked> Điện thoại</label></div><pre class="sql" id="f-out" style="white-space:pre-wrap;word-break:break-word"></pre><div class="note" id="f-note"></div>`,init:initS6,
+ learn:['OAuth2/OIDC ở mức đủ dùng, và vì sao dùng provider có sẵn','Verify JWT: issuer, audience, hạn dùng, JWKS','PII redaction theo allowlist và theo đường dẫn field','Least privilege cho DB role của agent','Prompt injection và threat model: agent làm được gì tối đa?'],
+ build:'Middleware auth, log không lộ PII, agent chỉ kết nối bằng role read-only với statement timeout.',
+ dod:['Test tự động: log đầu ra không chứa email, số điện thoại, token','Prompt injection kiểu "xoá bảng orders" thất bại ở tầng database (không phải ở prompt)','Có test: token hết hạn, sai audience, sai issuer đều bị từ chối'],
+ give:'Middleware, regex, câu lệnh GRANT, test mẫu.',own:'Threat model (agent làm tệ nhất được gì?), thử tấn công thật, đọc log thật tìm PII lọt.',
+ trap:'Dặn trong prompt "đừng xoá dữ liệu" rồi coi như an toàn. Ranh giới bảo mật phải nằm ở quyền của DB role.',code:'s6'},
+
+{id:'s7',ph:3,wk:'Tuần 14–15',nav:'Streaming',short:['Streaming',''],t:'Streaming: SSE và Time-To-First-Token',
+ why:'Với LLM, cảm giác nhanh quan trọng hơn tổng thời gian: người dùng chịu chờ 5 giây nếu thấy chữ xuất hiện sau 1 giây. Bạn đã có React ở phía client, nên SSE là cách rẻ nhất để có trải nghiệm này.',
+ orig:'SSE, WebSocket, gRPC streams, WebRTC, backpressure; dashboard realtime stream token LLM cùng cập nhật DB.',change:'Giữ SSE và WebSocket. Hoãn gRPC streams và WebRTC (ít cần cho web app thông thường). DB realtime bằng Postgres <code>LISTEN/NOTIFY</code>.',
+ rel:'backpressure',
+ dg:[760,195,[nd('br',10,60,120,56,'React UI','EventSource'),nd('ex',230,60,130,56,'Express','text/event-stream','a'),nd('llm',470,8,130,52,'LLM API','stream: true'),nd('pg',470,116,130,52,'Postgres','LISTEN/NOTIFY','g')],[['ex','br','token, token, ...'],['llm','ex','chunk'],['pg','ex','NOTIFY']]],
+ w:`<div class="ctls">${ctl('g-t','Độ trễ tới token đầu tiên (TTFT, ms)',200,3000,1200,100)}${ctl('g-r','Tốc độ sinh (token/giây)',10,80,30,5)}</div><div class="btns"><button class="btn primary" id="g-go">Gửi prompt</button><span id="g-sum" style="align-self:center;font-size:14px;color:var(--muted)"></span></div><div class="sbs"><div class="box"><b>Chờ đủ rồi mới hiện</b><div id="g-a"></div></div><div class="box"><b>Stream bằng SSE</b><div id="g-b"></div></div></div>`,init:initS7,
+ learn:['SSE và WebSocket khác nhau thế nào, khi nào chọn cái nào','TTFT và cảm nhận độ trễ','Huỷ lời gọi LLM khi client đóng tab (<code>AbortController</code>)','Backpressure khi client đọc chậm','<code>LISTEN/NOTIFY</code> để đẩy thay đổi DB tới client'],
+ build:'Trang chat/dashboard: stream token LLM và hiện cập nhật từ database trên cùng một kết nối SSE.',
+ dod:['Endpoint SSE stream token; đo và hiển thị TTFT trên UI','Đóng tab thì server huỷ luôn request LLM (kiểm tra bằng log)','Một thay đổi trong DB xuất hiện trên dashboard trong dưới 1 giây nhờ NOTIFY'],
+ give:'Boilerplate SSE, React hook nhận stream, parse chunk.',own:'Xử lý ngắt kết nối và reconnect, backpressure, đo TTFT thật rồi báo cáo.',
+ trap:'Quên huỷ lời gọi LLM khi người dùng đóng tab: bạn vẫn trả tiền cho những token không ai đọc.',code:'s7'},
+
+{id:'s8',ph:3,wk:'Tuần 16–17',nav:'Observability',short:['Observ-','ability'],t:'Observability: nhìn xuyên từ request tới prompt tới query',
+ why:'Không có observability thì không debug được "AI trả lời sai" vì bạn không thấy chính xác ngữ cảnh model đã nhận. Đây cũng là nơi tất cả các stage trước hội tụ: p99, pool, query, token đều hiện ra trong một trace.',
+ orig:'OpenTelemetry, Prometheus, Grafana, Langfuse; trace nối HTTP request với prompt LLM và query DB.',change:'Giữ nguyên. Node có auto-instrumentation cho http, express, pg. Chỉ cần thêm span thủ công quanh lời gọi LLM.',
+ rel:'p99 latency',
+ dg:[760,215,[nd('app',10,66,120,56,'Express','OTel SDK','a'),nd('col',190,66,120,56,'Collector','OTLP :4318'),nd('tr',370,8,130,48,'Jaeger / Tempo','traces'),nd('pr',370,84,130,48,'Prometheus','metrics'),nd('lf',370,160,130,48,'Langfuse','prompt · token · cost'),nd('gr',590,46,140,56,'Grafana','dashboard','g')],[['app','col'],['col','tr'],['col','pr'],['col','lf'],['tr','gr'],['pr','gr']]],
+ w:`<div class="ctls">${ctl('h-e','Gọi embedding (ms)',20,600,120,10)}${ctl('h-d','Truy vấn vector trong Postgres (ms)',5,800,40,5)}${ctl('h-l','Gọi LLM (ms)',300,6000,2200,100)}</div><div class="split2" style="display:grid;grid-template-columns:minmax(0,1.6fr) 1fr;gap:14px"><svg id="h-svg" viewBox="0 0 640 196"></svg><div class="box" id="h-attr"></div></div><div class="note" id="h-note"></div>`,init:initS8,
+ learn:['Trace, span, metric, log và khi nào dùng cái nào','OpenTelemetry SDK cho Node và Collector','Span thủ công cho LLM: model, token, hash của prompt','Langfuse hoặc tương đương cho prompt/cost theo user','Không đưa PII vào attribute'],
+ build:'Một request tới <code>/chat</code> sinh một trace gồm: HTTP, auth, embedding, SQL vector, LLM, insert.',
+ dod:['Thấy một trace đủ span express, pg và LLM trong Jaeger hoặc Grafana Tempo','Span LLM có model, số token, hash prompt và không chứa PII','Dashboard p50/p95/p99 theo route cộng chi phí token theo ngày'],
+ give:'Cấu hình OTel, docker compose cho Collector và Jaeger, boilerplate span.',own:'Chọn attribute nào cần, loại PII, đọc trace để chỉ ra bottleneck và đề xuất sửa.',
+ trap:'Ghi prompt thô vào trace: hệ thống quan sát của bạn biến thành kho lưu PII.',code:'s8'},
+
+{id:'s9',ph:4,wk:'Tuần 18–19',nav:'CI/CD & IaC',short:['CI/CD','& IaC'],t:'Docker, CI/CD và môi trường preview cho mỗi PR',
+ why:'Deploy thủ công là rủi ro, và khi AI giúp bạn viết nhanh hơn thì pipeline kiểm tra càng quan trọng: nó là người gác cổng không mệt. Môi trường preview cho từng PR cũng là cách review code AI bằng việc chạy thật.',
+ orig:'Terraform hoặc Pulumi, Docker, Kubernetes cơ bản, GitHub Actions, môi trường ephemeral cho mỗi PR.',change:'Docker multi-stage, docker compose, GitHub Actions và một PaaS có preview environment. Terraform/Pulumi ở mức đọc và áp dụng được plan. Hoãn Kubernetes sâu.',
+ rel:'',
+ dg:[760,140,[nd('n1',10,36,100,60,'Mở PR'),nd('n2',145,36,100,60,'Actions','test + build'),nd('n3',280,36,100,60,'Docker image'),nd('n4',415,36,100,60,'Preview env','app + DB riêng','a'),nd('n5',550,36,100,60,'Comment URL','review trên link'),nd('n6',685,36,70,60,'Đóng PR','xoá env','b')],[['n1','n2'],['n2','n3'],['n3','n4'],['n4','n5'],['n5','n6']]],
+ w:`<div class="ctls"><label class="chk"><input type="checkbox" id="i-td" checked> Tự xoá môi trường khi đóng PR</label></div><div class="btns"><button class="btn primary" id="i-open">Mở PR</button><button class="btn" id="i-close">Đóng PR cũ nhất</button><button class="btn" id="i-reset">Làm lại</button></div><div class="envs" id="i-envs"></div><div class="stats" id="i-stats"></div><div class="note" id="i-note"></div>`,init:initS9,
+ learn:['Dockerfile multi-stage và docker compose cho cả stack','GitHub Actions: lint, test, <code>prisma migrate deploy</code>','Secrets và quyền tối thiểu cho CI','Môi trường preview và teardown tự động','Terraform/Pulumi: đọc plan trước khi apply'],
+ build:'Mỗi PR: chạy test trên Postgres thật, dựng môi trường riêng với URL để review, và tự xoá khi PR đóng.',
+ dod:['<code>docker compose up</code> chạy cả stack (app, Postgres, Redis) từ máy sạch','Mỗi PR chạy lint, test và migrate trên Postgres service','Preview URL xuất hiện trong PR và môi trường bị xoá khi đóng PR'],
+ give:'Dockerfile, workflow YAML, file Terraform mẫu.',own:'Bảo vệ secrets, bước teardown, đọc kỹ plan trước khi apply, kiểm tra không có môi trường mồ côi.',
+ trap:'Preview env không tự xoá: hoá đơn tăng âm thầm mỗi tuần.',code:'s9'},
+
+{id:'s10',ph:4,wk:'Tuần 20',nav:'FinOps',short:['FinOps',''],t:'FinOps: scale theo queue, trả tiền đúng thứ đang chạy',
+ why:'Ở thời AI, backend engineer cũng chịu trách nhiệm cho hoá đơn. Bạn không cần GPU hay cụm lớn để học điều này: chỉ cần worker xử lý queue và biết scale theo độ sâu hàng đợi.',
+ orig:'KEDA, spot instances, cost allocation tags, resource limits; autoscaler GPU/CPU theo độ sâu queue Kafka.',change:'Scale worker CPU theo độ sâu queue BullMQ/pg-boss. Hoãn GPU. Học tag chi phí và resource limits ngay cả khi chưa có Kubernetes.',
+ rel:'backpressure',
+ dg:[760,170,[nd('q',10,56,120,56,'Queue','độ sâu = tín hiệu','w'),nd('sc',190,56,150,56,'Autoscaler','workers = depth / N','a'),nd('w',400,8,170,56,'Workers 0..N','CPU/RAM limits'),nd('cost',620,56,130,56,'Chi phí','tag: team · env','g')],[['q','sc'],['sc','w','scale'],['w','cost','','']]],
+ w:`<div class="ctls">${ctl('j-b','Job tồn đọng mỗi worker chịu được',10,200,50,10)}${ctl('j-s','Thời gian khởi động worker (giây)',0,120,30,5)}</div><svg id="j-svg" viewBox="0 0 640 232"></svg><div class="stats" id="j-stats"></div><div class="note" id="j-note"></div>`,init:initS10,
+ learn:['Scale theo độ sâu queue, không theo CPU','Scale về mức tối thiểu khi rảnh, và chi phí cold start','Spot instance: chịu gián đoạn thế nào','Tag và cost allocation: team, env, owner','Resource limits để một worker lỗi không kéo sập cả node'],
+ build:'Worker xử lý queue tự tăng giảm theo số job chờ. Thử với đợt spike giả lập và so chi phí với việc cấp cố định theo đỉnh.',
+ dod:['Worker tự scale lên khi queue đầy và xuống mức tối thiểu khi rỗng (script hoặc KEDA)','Mọi tài nguyên có tag team, env, owner; có báo cáo chi phí theo tuần','Đặt CPU/RAM limits và chứng minh một worker bị OOM không ảnh hưởng worker khác'],
+ give:'Script hoặc YAML scaler, cấu hình limits, câu lệnh gắn tag.',own:'Chọn ngưỡng, tính chi phí thật, chạy load test spike và đọc kết quả.',
+ trap:'Scale worker theo CPU: worker chờ I/O có CPU thấp nhưng queue vẫn đầy và không bao giờ scale.',code:'s10'},
+
+{id:'s11',ph:4,wk:'Tuần 21–22',nav:'Resiliency',short:['Resiliency',''],t:'Resiliency: circuit breaker, rate limit, lock, chaos',
+ why:'Hệ thống nào rồi cũng hỏng. Khác biệt là nó hỏng cục bộ và suy giảm có kiểm soát, hay lan thành sập toàn bộ. Đây là stage kết nối mọi thứ trước đó và là nội dung chính của design review ở cấp senior.',
+ orig:'Circuit breaker, bulkhead, rate limiting, chaos engineering, CAP, distributed lock; rate limiter phân tán toàn cầu bằng Redis.',change:'Dùng opossum, rate-limiter-flexible, advisory lock của Postgres. Rate limiter một vùng trước, đa vùng để sau.',
+ rel:'tail latency amplification, idempotency key, consistent hashing',
+ dg:[760,175,[nd('a',10,60,100,56,'API'),nd('rl',150,60,120,56,'Rate limiter','Redis bucket','a'),nd('cb',310,60,120,56,'Circuit breaker','đóng / mở / half','w'),nd('b1',480,10,130,48,'Pool thanh toán'),nd('b2',480,114,130,48,'Pool báo cáo'),nd('ext',650,60,100,56,'API ngoài','hay lỗi','b')],[['a','rl'],['rl','cb'],['cb','b1'],['cb','b2'],['b1','ext'],['b2','ext','','d']]],
+ w:`<div class="ctls"><label class="chk"><input type="checkbox" id="k-dead"> Dependency đang chết</label></div><div class="btns"><button class="btn primary" id="k-go">Bắt đầu mô phỏng</button><button class="btn" id="k-reset">Đặt lại</button></div><p style="margin:0 0 10px"><span class="state closed" id="k-state"></span></p><div class="stats" id="k-stats"></div><ul class="log" id="k-log"></ul>`,init:initS11,
+ learn:['Circuit breaker: closed, open, half-open','Bulkhead: tách pool để một phần hỏng không kéo cả hệ thống','Token bucket và rate limit theo user','Advisory lock và vì sao tránh khoá cấp session với connection pool','CAP: khi mạng bị chia cắt bạn chọn gì, và chaos test nhỏ'],
+ build:'Bọc API ngoài bằng circuit breaker, rate limiter Redis đúng khi có 2 instance, job định kỳ chỉ một instance chạy.',
+ dod:['Tắt dependency, API trả lỗi nhanh (dưới 100ms) thay vì treo','Rate limiter đúng khi chạy 2 instance cùng lúc (test bằng hai tiến trình)','Chaos test: kill một instance giữa job định kỳ, job không chạy trùng và không bị bỏ'],
+ give:'Code breaker, limiter, truy vấn advisory lock.',own:'Chọn timeout và ngưỡng, chạy chaos test, giải thích được bạn đang đánh đổi gì theo CAP.',
+ trap:'Retry mà không có circuit breaker: khi dependency chết, bạn tự tấn công nó bằng chính các lần thử lại.',code:'s11'},
+
+{id:'s12',ph:4,wk:'Tuần 23–24',nav:'Portfolio',short:['Portfolio',''],t:'Portfolio: biến số đo thành bằng chứng',
+ why:'Khi ai cũng dùng AI để sinh code, thứ tạo khác biệt là phán đoán: bạn chọn gì, bỏ gì, đo ra sao. Portfolio của người có phán đoán tốt không phải là danh sách dự án, mà là những bài kể rõ một vấn đề, số đo trước và sau, và lý do chọn.',
+ orig:'ADR, sơ đồ hệ thống, benchmark; xuất bản 3 bài phân tích sâu về cách xử lý một nút thắt.',change:'Giữ nguyên, nhưng chất liệu là 11 stage bạn vừa làm. Mỗi bài dựa trên một thí nghiệm bạn đã đo ở stage trước.',
+ rel:'p99 latency',
+ dg:[760,130,[nd('a',10,34,120,58,'Đo trước','baseline'),nd('b',165,34,120,58,'Sửa 1 thứ','một biến thôi','a'),nd('c',320,34,120,58,'Đo sau','cùng điều kiện'),nd('d',475,34,130,58,'ADR + sơ đồ','lý do chọn'),nd('e',640,34,110,58,'Bài viết','+ repo','g')],[['a','b'],['b','c'],['c','d'],['d','e']]],
+ w:`<div class="ctls">${ctl('l-b','p99 trước khi sửa (ms)',100,3000,1800,50)}${ctl('l-a','p99 sau khi sửa (ms)',20,2000,350,10)}<label class="ctl" style="grid-column:1/-1"><span>Bạn đã làm gì?</span><input type="text" id="l-w" value="thêm composite index (user_id, created_at DESC)" style="grid-column:1/-1;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)"></label></div><div class="resul" id="l-out"></div><div class="note" id="l-note"></div>`,init:initS12,
+ learn:['ADR: bối cảnh, quyết định, phương án đã loại, hệ quả','Vẽ một sơ đồ kiến trúc đọc được trong 30 giây','Benchmark có phương pháp: cùng dữ liệu, cùng tải, một biến thay đổi','Cấu trúc bài: Vấn đề, Đo, Giả thuyết, Sửa, Số kết quả','Viết README để người lạ chạy được trong 5 phút'],
+ build:'Chọn 3 thí nghiệm bạn đã đo (ví dụ: event loop lag, EXPLAIN trước và sau index, cache hit rate của gateway) và viết thành 3 bài teardown.',
+ dod:['3 ADR trong repo, mỗi cái có ít nhất một phương án đã loại và lý do','3 bài viết có số đo trước và sau, cùng điều kiện đo','1 sơ đồ kiến trúc tổng và README để người lạ chạy được trong 5 phút'],
+ give:'Dàn bài, sửa văn phong, gợi ý cấu trúc, vẽ sơ đồ.',own:'Số đo thật, quyết định và lý do đằng sau. Bạn chịu trách nhiệm cho từng câu trong bài.',
+ trap:'Bài viết kể công nghệ nhưng không có số đo trước và sau: không ai tin.',code:'s12'}
+];
+
+const PH=[['P1 · Nền móng',1],['P2 · Async & AI',2],['P3 · Production',3],['P4 · Vận hành',4]];
+const MAPROWS=[['1','Go/Rust/Python concurrency','Node.js event loop, worker_threads, streams','swap'],['2','PostgreSQL, pgvector, ClickHouse, Redis','Giữ Postgres, pgvector, Redis. Hoãn ClickHouse','keep'],['3','Kafka, NATS, RabbitMQ','BullMQ hoặc pg-boss trước, Kafka khi cần replay','swap'],['4','Temporal hoặc Inngest','Tự làm state machine trong Postgres rồi thử Inngest/Temporal','keep'],['5','AI gateway, semantic cache','Express + Redis + pgvector, giữ nguyên ý tưởng','keep'],['6','OAuth2, OIDC, PII, sandbox agent','Dùng OIDC provider có sẵn, tự làm verify JWT, redact, role read-only','keep'],['7','SSE, WebSocket, gRPC, WebRTC','Giữ SSE và WebSocket. Hoãn gRPC, WebRTC','defer'],['8','OpenTelemetry, Prometheus, Grafana, Langfuse','Giữ nguyên','keep'],['9','Terraform/Pulumi, Docker, Kubernetes, CI/CD','Docker, GitHub Actions, PaaS có preview. Hoãn Kubernetes sâu','swap'],['10','KEDA, spot, GPU autoscaling','Scale worker CPU theo queue. Hoãn GPU','swap'],['11','Circuit breaker, bulkhead, chaos, rate limiter toàn cầu','Giữ khái niệm. Rate limiter một vùng trước, đa vùng để sau','defer'],['12','ADR, sơ đồ, 3 bài viết','Giữ nguyên, dùng số đo từ các stage trước','keep']];
+const TAGN={keep:'Giữ',swap:'Thay',defer:'Hoãn'};
+
+/* ---------- dựng trang ---------- */
+let prog={};try{prog=JSON.parse(localStorage.getItem('pern-roadmap-v1')||'{}')}catch(e){}
+const saveProg=()=>{try{localStorage.setItem('pern-roadmap-v1',JSON.stringify(prog))}catch(e){}};
+const upd=()=>{const all=document.querySelectorAll('.dod input'),n=[...all].filter(i=>i.checked).length;
+ $('#progtxt').textContent=`Bài tập hoàn thành: ${n}/${all.length}`;$('#progbar').style.width=(all.length?n/all.length*100:0)+'%'};
+
+$('#map').innerHTML='<tr><th>#</th><th>Bản gốc (Python/Go)</th><th>Bản PERN junior</th><th>Trạng thái</th></tr>'+MAPROWS.map(r=>`<tr><td><a href="#s${r[0]}">${r[0]}</a></td><td>${r[1]}</td><td>${r[2]}</td><td><span class="tag ${r[3]}">${TAGN[r[3]]}</span></td></tr>`).join('');
+$('#nav').insertAdjacentHTML('beforeend',S.map((s,i)=>`<a href="#${s.id}">${i+1}. ${s.nav}</a>`).join(''));
+
+(function metro(){
+ const x0=50,step=900/11,col=['','--p1','--p2','--p3','--p4'];let s='';
+ for(let i=0;i<11;i++)s+=`<line x1="${x0+i*step}" x2="${x0+(i+1)*step}" y1="78" y2="78" style="stroke:var(${col[S[i].ph]});stroke-width:7;stroke-linecap:round"/>`;
+ S.forEach((st,i)=>{const x=x0+i*step,c=col[st.ph];
+  s+=`<a href="#${st.id}"><circle cx="${x}" cy="78" r="17" style="fill:var(--surface);stroke:var(${c});stroke-width:4"/><text x="${x}" y="83" text-anchor="middle" style="fill:var(--ink);font-weight:700;font-size:13px">${i+1}</text><text x="${x}" y="46" text-anchor="middle" style="font-size:11px">${st.wk}</text><text x="${x}" y="112" text-anchor="middle" style="fill:var(--ink);font-size:11.5px">${st.short[0]}</text>${st.short[1]?`<text x="${x}" y="125" text-anchor="middle" style="fill:var(--ink);font-size:11.5px">${st.short[1]}</text>`:''}</a>`});
+ PH.forEach(([n,p])=>{const idx=S.map((x,i)=>x.ph===p?i:-1).filter(i=>i>=0),a=x0+idx[0]*step-26,b=x0+idx[idx.length-1]*step+26;
+  s+=`<rect x="${a}" y="146" width="${b-a}" height="28" rx="8" style="fill:color-mix(in srgb,var(${col[p]}) 16%,var(--surface));stroke:var(${col[p]})"/><text x="${(a+b)/2}" y="165" text-anchor="middle" style="fill:var(--ink);font-weight:600">${n}</text>`});
+ $('#metro').innerHTML=s;
+})();
+
+$('#loop').outerHTML=dg(760,120,[nd('a',10,30,150,60,'1. Hiểu','hỏi AI kèm sơ đồ'),nd('b',215,30,150,60,'2. Dựng','AI viết khung, bạn viết lõi','a'),nd('c',420,30,150,60,'3. Phá','load · kill · tiêm lỗi','b'),nd('d',625,30,125,60,'4. Đo & viết','số liệu + ghi chú','g')],[['a','b'],['b','c'],['c','d']]);
+
+const PHN={1:'Phase 1 · Nền móng',2:'Phase 2 · Async & AI',3:'Phase 3 · Production',4:'Phase 4 · Vận hành & kiến trúc'};
+S.forEach((s,i)=>{
+ const code=esc($('#code-'+s.code).textContent.trim());
+ $('#main').insertAdjacentHTML('beforeend',`<section class="sec" id="${s.id}" style="--ph:var(--p${s.ph})"><div class="wrap">
+<div class="sh"><span class="num">${i+1}</span><div><div class="chips"><span class="chip ph">${PHN[s.ph]}</span><span class="chip">${s.wk}</span></div><h2>${s.t}</h2></div></div>
+<p class="lead">${s.why}</p>
+<div class="orig"><div><b>Bản gốc của mentor</b>${s.orig}</div><div><b>Bản PERN cho junior</b>${s.change}</div></div>
+<h3>Bức tranh</h3><div class="card scroll">${dg(...s.dg)}</div>
+<h3>Thử tay</h3><div class="card">${s.w}</div>
+<div class="two"><div><h3>Học gì</h3><ul>${s.learn.map(x=>`<li>${x}</li>`).join('')}</ul></div><div><h3>Dự án và Definition of done</h3><p>${s.build}</p><ul class="dod">${s.dod.map((d,k)=>`<li><input type="checkbox" id="dod-${i}-${k}" ${prog[`dod-${i}-${k}`]?'checked':''}><label for="dod-${i}-${k}">${d}</label></li>`).join('')}</ul></div></div>
+<h3>Dùng AI thế nào ở stage này</h3><div class="ai"><div class="give"><b>Giao cho AI</b>${s.give}</div><div class="own"><b>Bạn phải tự làm và kiểm chứng</b>${s.own}</div></div>
+<h3>Code khởi đầu</h3><pre><code>${code}</code></pre>
+<p class="trap"><b>Bẫy hay gặp:</b> ${s.trap}</p>${s.rel?`<p class="rel">Nối với trang 10 khái niệm: ${s.rel}.</p>`:''}
+</div></section>`);
+ try{s.init()}catch(e){console.error(s.id,e)}
+});
+document.addEventListener('change',e=>{if(e.target.matches('.dod input')){prog[e.target.id]=e.target.checked;saveProg();upd()}});
+upd();
+</script>
+</body>
+</html>
